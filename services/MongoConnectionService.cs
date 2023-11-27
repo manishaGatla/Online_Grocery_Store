@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using OnlineGrocery.Models;
+using System.Collections;
 
 namespace OnlineGrocery.services
 {
@@ -63,14 +64,45 @@ namespace OnlineGrocery.services
 
             return details;
         }
-        public  BsonDocument GetAllOrders()
-        {
-            BsonDocument details = null;
-            var collection = _database.GetCollection<BsonDocument>();
+        //public  BsonDocument GetAllOrders()
+        //{
+        //    BsonDocument details = null;
+        //    var collection = _database.GetCollection<BsonDocument>();
             
 
-            return details; 
+        //    return details; 
+        //}
+
+
+        public async Task UpdateCustomerDetails(string email, Customer updateDetails, string type)
+        {
+            var filter = "{ email: " + "\"" + email + "\"" + "}";
+            var collection = _database.GetCollection<BsonDocument>(type);
+            await collection.UpdateManyAsync(filter, updateDetails.ToBsonDocument());
         }
+        public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
+        {
+            var filter = "{ email: " + "\"" + email + "\"" + "}";
+            var collection = _database.GetCollection<BsonDocument>(type);
+            await collection.UpdateManyAsync(filter, updateDetails.ToBsonDocument());
+
+        }
+        public BsonDocument GetCartDetails(String email)
+        {
+            var filter = "{ email: " + "\"" + email + "\"" + ", orderStatus:" + "\"In Cart\""+ "}";
+            var collection = _database.GetCollection<BsonDocument>("Orders");
+            var details = collection.FindAsync(filter).ToBsonDocument();
+            return details;
+        }
+        public BsonDocument GetDeliveredDetails(String email)
+        {
+            var filter = "{ email: " + "\"" + email + "\"" + ", orderStatus:" + "\"Deliverd\"" + "}";
+            var collection = _database.GetCollection<BsonDocument>("Orders");
+            var details = collection.FindAsync(filter).ToBsonDocument();
+            return details;
+        }
+
+
 
     }
 }
