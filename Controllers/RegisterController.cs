@@ -31,7 +31,7 @@ namespace OnlineGrocery.Controllers
             }
         }
 
-        [HttpPost("newUser/customer")]
+        [HttpPost("newUser/customer")]  
         public async Task<IActionResult> AddCustomer([FromBody] Customer customerData)
         {
             try

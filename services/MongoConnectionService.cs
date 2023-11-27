@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using OnlineGrocery.Models;
 
 namespace OnlineGrocery.services
 {
@@ -10,7 +11,7 @@ namespace OnlineGrocery.services
 
         public MongoConnectionService()
         {
-            string connectionString = "mongodb://localhost:27017"; 
+            string connectionString = "mongodb+srv://pxk23480:Prash%4098490@cluster0.byhj77c.mongodb.net/"; 
             string databaseName = "OnlineGroceryStore"; 
 
             _client = new MongoClient(connectionString);
@@ -40,6 +41,35 @@ namespace OnlineGrocery.services
         {
             var collection = _database.GetCollection<BsonDocument>(collectionName);
             await collection.FindAsync(filter);
+        }
+        public  BsonDocument GetUserByUseremail(string useremail)
+        {
+            String CollectionName = "Customers";
+            
+            var filter = "{ email: " + "\"" +useremail + "\"" + "}";
+            var details = _database.GetCollection<BsonDocument>("Customers").Find(filter).FirstOrDefault();
+            if(details == null)
+            {
+                details = _database.GetCollection<BsonDocument>("Admins").Find(filter).FirstOrDefault();
+                CollectionName = "Admins";
+            }
+            if(details == null)
+            {
+                details = _database.GetCollection<BsonDocument>("DeliveryExecutives").Find(filter).FirstOrDefault();
+                CollectionName = "DeliveryExecutives";
+
+            }
+            details.Add(CollectionName, CollectionName);
+
+            return details;
+        }
+        public  BsonDocument GetAllOrders()
+        {
+            BsonDocument details = null;
+            var collection = _database.GetCollection<BsonDocument>();
+            
+
+            return details; 
         }
 
     }
