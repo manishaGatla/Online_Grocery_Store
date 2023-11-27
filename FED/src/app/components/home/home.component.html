@@ -12,6 +12,77 @@
 
 <div *ngif="loginService.isAdmin">
   <div>
+    <div>
+      <div *ngIf="!isAddNewProdBtnClicked && !isEditProductBtnClicked">
+        <div class="item" *ngFor="let item of products">
+          <img [src]="item.imageUrl" alt="{{ item.title }}" />
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.description }}</p>
+          <div class="item-footer">
+            <span class="product-price">{{ item.price | currency }}</span>
+          </div>
+          <div>
+            <button click="editProduct(item)">
+              Edit Product
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <button click="addNewProdBtnClicked()">
+            Add New Product
+          </button>
+        </div>
+      </div>
+
+
+      <form *ngIf="isAddNewProdBtnClicked || isEditProductBtnClicked" (submit)="onProductAddSubmit()">
+        <div>
+          <label>Product Name:</label>
+          <input type="text" [(ngModel)]="product.product">
+        </div>
+        <div>
+          <label>Category:</label>
+          <input type="text" [(ngModel)]="product.category">
+        </div>
+        <div>
+          <label>Sub Category:</label>
+          <input type="text" [(ngModel)]="product.sub_category">
+        </div>
+        <div>
+          <label>Brand:</label>
+          <input type="text" [(ngModel)]="product.brand">
+        </div>
+        <div>
+          <label>Sale Price:</label>
+          <input type="number" [(ngModel)]="product.sale_price">
+        </div>
+        <div>
+          <label>Market Price:</label>
+          <input type="number" [(ngModel)]="product.market_price">
+        </div>
+        <div>
+          <label>Type:</label>
+          <input type="text" [(ngModel)]="product.type">
+        </div>
+        <div>
+          <label>Rating:</label>
+          <input type="number" [(ngModel)]="product.rating">
+        </div>
+        <div>
+          <label>Description:</label>
+          <textarea [(ngModel)]="product.description"></textarea>
+        </div>
+        <div>
+          <label>Image:</label>
+          <input type="file" (change)="onFileSelected($event)">
+        </div>
+        <button type="submit">Add Product</button>
+      </form>
+
+
+
+    </div>
     
   </div>
 
@@ -19,7 +90,7 @@
 
 
 <div *ngif="loginService.isDeliveryExec">
-
+  <app-deliverables></app-deliverables>
 </div>
 
   

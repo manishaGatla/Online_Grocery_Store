@@ -9,6 +9,8 @@ export class LoginService {
   isAdmin : boolean =false;
   isCustomer: boolean = false;
   isDeliveryExec: boolean =false;
+  isLoginSuccessful: boolean = false;
+  isLoggedOutSuccessful: boolean = false;
 
   profileDetails: any;
 

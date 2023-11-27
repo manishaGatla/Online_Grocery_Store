@@ -1,4 +1,4 @@
-<div class="cart-list">
+<div class="cart-list" *ngIf ="!cartService.showPaymentSection">
     <div class="cart-item" *ngFor="let item of cartItems">
       <div class="cart-header" (click)="toggleItemDetails(item)">
         <span class="item-title">{{ item.title }}</span>
@@ -8,11 +8,66 @@
       <div class="item-details" *ngIf="item.showDetails">
         <!-- Additional item details go here -->
 
-        <div class="yesy">
+        <div class="">
           <button click="buyNow()">buy now</button>
           <button click="remove(item)">Remove From Cart</button>
         </div>
       </div>
     </div>
   </div>
+
   
+
+  <div *ngIf="cartService.showPaymentSection">
+    <div class="form-group">
+
+      <label class="mr-r-15  margins label-style-register">
+          Address Line 1:
+          <input class="mr-r-15  mr-l-61 select-style"
+              type="text"
+              value="cartService.addressDetails.addressLine1"
+
+          />
+      </label>
+  </div>
+  <div class="form-group">
+      <label class="mr-r-15 margins label-style-register">
+        Address Line 2:
+          <input class="mr-r-15  mr-l-15 select-style"
+              type="text"
+              value="cartService.addressDetails.addressLine2"
+             
+          />
+      </label>
+
+  </div>
+  <div class="form-group">
+      <label class="mr-r-15 margins label-style-register">
+          ZipCode:
+          <input class="mr-r-15 mr-l-53 select-style"
+              type="text"
+              value="cartService.addressDetails.zip"
+          />
+      </label>
+  </div>
+  <div class="form-group">
+    <label class="mr-r-15 margins label-style-register">
+        City:
+        <input class="mr-r-15 mr-l-53 select-style"
+            type="text"
+            value="cartService.addressDetails.city"
+        />
+    </label>
+</div>
+<div class="form-group">
+  <label class="mr-r-15 margins label-style-register">
+      State:
+      <input class="mr-r-15 mr-l-53 select-style"
+          type="text"
+          value="cartService.addressDetails.state"
+      />
+  </label>
+</div>
+    <app-payments (cartItems)="cartItems"></app-payments>
+
+  </div>

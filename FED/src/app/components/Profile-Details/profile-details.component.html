@@ -14,7 +14,7 @@
       </div>
       <div class="form-group">
         <label for="phone">Phone Number:</label>
-        <input type="text" id="phone"  name="phone" [(ngModel)]="user.phone" required>
+        <input type="text" id="phone"  name="phone" [(ngModel)]="loginService.profileDetails.phone" required>
       </div>
       <div *ngIf="!loginService.isCustomer">
         <div class="form-group">

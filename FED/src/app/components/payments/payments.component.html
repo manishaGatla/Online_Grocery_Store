@@ -1,0 +1,66 @@
+<section class="payment-container">
+
+    <h2 class="c-w">Enter Payment Details</h2>
+    <div class="form-group">
+        <label class="mr-r-15 margins label-style-register">
+            Card Type:
+            <select value="selectedPaymentMethod" class=" mr-l-90 mr-r-15 select-style" >
+                <option value="">Select Card Type</option>
+                <option value="debit">Debit Card</option>
+                <option value="credit">Credit Card</option>
+            </select>
+        </label>
+    </div>
+    <div class="form-group">
+
+        <label class="mr-r-15  margins label-style-register">
+            Card Number:
+            <input class="mr-r-15  mr-l-61 select-style"
+                type="text"
+                value="accountNumber"
+
+            />
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="mr-r-15 margins label-style-register">
+            Card Holder Name:
+            <input class="mr-r-15  mr-l-15 select-style"
+                type="text"
+                value="cardHolderName"
+               
+            />
+        </label>
+
+    </div>
+    <div class="form-group">
+        <label class="mr-r-15 margins label-style-register">
+            Security Code:
+            <input class="mr-r-15 mr-l-53 select-style"
+                type="text"
+                value="cvv"
+            />
+        </label>
+    </div>
+    <div class="form-group">
+        <label class="mr-r-15 margins label-style-register">
+            Billing Address
+            <input class="mr-r-15 mr-l-53 select-style"
+                type="text"
+                value="billingAddress"
+            />
+        </label>
+    </div>
+
+
+
+</section>
+
+<section class="payment-container">
+    <div class="form-group">
+      <button type="submit" class="sub-btn" (click)="onSubmit()">Submit</button>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="sub-btn" (click)="onCancel()">Cancel</button>
+      </div>
+  </section>

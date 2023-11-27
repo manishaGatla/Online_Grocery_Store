@@ -16,7 +16,7 @@ export class ProfileDetailsComponent implements OnInit{
   }
 
   updateProfile(){
-  var filter ="{email:}"+ this.email;
+  var filter ="{email:"+ this.email+"}";
   var update = this.getBody();
   var body = {
     filter: filter,

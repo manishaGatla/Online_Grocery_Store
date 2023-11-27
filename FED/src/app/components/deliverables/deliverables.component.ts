@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import { OrderService } from 'src/app/services/order.service';
-const {  ObjectId} = require('mongodb');
 
 @Component({
   selector: 'app-deliverables',
@@ -29,7 +28,7 @@ export class DeliverablesComponent implements OnInit {
   }
 
   updateOrderStatus(){
-    var filter ="{_id:}"+ new ObjectId(this.loginService.profileDetails.email);
+    var filter = this.loginService.profileDetails.email ;
     var update = {
       status:"delivered"
     };

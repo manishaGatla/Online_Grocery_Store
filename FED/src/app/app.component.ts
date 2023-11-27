@@ -9,6 +9,15 @@ import { LoginService } from './services/login.service';
 })
 export class AppComponent {
 
-  constructor(private loginService : LoginService){}
+  constructor(public loginService : LoginService){}
   
+
+  logOut(){
+    this.loginService.profileDetails = null;
+    this.loginService.isAdmin = false;
+    this.loginService.isCustomer = false;
+    this.loginService.isDeliveryExec = false;
+    this.loginService.isLoginSuccessful = false;
+    this.loginService.isLoggedOutSuccessful = true;
+  }
 }

@@ -6,6 +6,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CartService {
   baseurl = "https://localhost:7274";
+  showPaymentSection: boolean = false;
+  addressDetails: any = {
+    addressLine1: null,
+    addressLine2: null,
+    zip:null,
+    state: null,
+    city: null
+
+  } ;
   constructor(private httpClient: HttpClient) { }
 
   getCartItemsByEmail(email: any){
