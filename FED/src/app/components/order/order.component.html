@@ -1,0 +1,13 @@
+<div class="orders-list">
+    <div class="order" *ngFor="let order of orders">
+      <div class="order-header" (click)="toggleOrderDetails(order)">
+        <span class="order-title">{{ order.title }}</span>
+        <span class="order-price">{{ order.price | currency }}</span>
+        <span class="order-delivery-time">{{ order.deliveryTime }}</span>
+      </div>
+      <div class="order-details" *ngIf="order.showDetails">
+        <p>expanded</p>
+      </div>
+    </div>
+</div>
+  

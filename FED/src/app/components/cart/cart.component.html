@@ -1,0 +1,18 @@
+<div class="cart-list">
+    <div class="cart-item" *ngFor="let item of cartItems">
+      <div class="cart-header" (click)="toggleItemDetails(item)">
+        <span class="item-title">{{ item.title }}</span>
+        <span class="item-price">{{ item.price | currency }}</span>
+        <span class="item-delivery-time">{{ item.deliveryTime }}</span>
+      </div>
+      <div class="item-details" *ngIf="item.showDetails">
+        <!-- Additional item details go here -->
+
+        <div class="yesy">
+          <button click="buyNow()">buy now</button>
+          <button click="remove(item)">Remove From Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

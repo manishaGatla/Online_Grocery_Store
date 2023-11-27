@@ -1,0 +1,25 @@
+<div class="items-grid" *ngif="loginService.isCustomer">
+    <div class="item" *ngFor="let item of items">
+      <img [src]="item.imageUrl" alt="{{ item.title }}" />
+      <h2>{{ item.title }}</h2>
+      <p>{{ item.description }}</p>
+      <div class="item-footer">
+        <span class="item-price">{{ item.price | currency }}</span>
+        <button (click)="addToCart(item)">Add to Cart</button>
+      </div>
+    </div>
+</div>
+
+<div *ngif="loginService.isAdmin">
+  <div>
+    
+  </div>
+
+</div>
+
+
+<div *ngif="loginService.isDeliveryExec">
+
+</div>
+
+  

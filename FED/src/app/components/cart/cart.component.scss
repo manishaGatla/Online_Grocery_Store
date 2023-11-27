@@ -1,0 +1,36 @@
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .cart-item {
+    width: 80%;
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .cart-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .item-title {
+    font-weight: bold;
+  }
+  
+  .item-details {
+    margin-top: 10px;
+  }
+  
+  .cart-item.show-details .item-details {
+    display: block;
+  }
+  

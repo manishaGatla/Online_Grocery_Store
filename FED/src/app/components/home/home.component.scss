@@ -1,0 +1,41 @@
+.items-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.item {
+  width: calc(33.33% - 46px); /* Adjust the width as needed with some space in between */
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  max-height: 150px; /* Adjust the image height as needed */
+}
+
+.item h2 {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-price {
+  font-weight: bold;
+}
+
+button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
