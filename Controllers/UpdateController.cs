@@ -9,21 +9,21 @@ namespace OnlineGrocery.Controllers
     public class UpdateController : Controller
     {
         private readonly MongoConnectionService _mongoConnService;
-        public  UpdateController(MongoConnectionService mongoConnService)
+        public UpdateController(MongoConnectionService mongoConnService)
         {
-            _mongoConnService = mongoConnService;   
+            _mongoConnService = mongoConnService;
         }
         [HttpPost("update")]
         public async Task<IActionResult> UpdateUserDetails([FromBody] UpdateDetialsModel userData)
         {
             string email = userData.filter;
             string type = userData.role;
-            
-            if(type == "Admins" || type == "DeliveryExecutives")
+
+            if (type == "Admins" || type == "DeliveryExecutives")
             {
                 try
                 {
-                   var updateDetails = userData.updateData;
+                    var updateDetails = userData.updateData;
                     await _mongoConnService.UpdateDetails(email, updateDetails, type);
                 }
                 catch (Exception ex)
@@ -44,9 +44,10 @@ namespace OnlineGrocery.Controllers
                     return StatusCode(500, $"Error: {ex.Message}");
                 }
             }
-           
+
             return Ok("Document Updated to MongoDB");
-            
+
 
         }
+    }
 }

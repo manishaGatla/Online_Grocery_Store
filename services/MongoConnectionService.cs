@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using OnlineGrocery.Models;
 using System.Collections;
+using System.Security.Cryptography;
 
 namespace OnlineGrocery.services
 {
@@ -89,17 +90,45 @@ namespace OnlineGrocery.services
         }
         public BsonDocument GetCartDetails(String email)
         {
-            var filter = "{ email: " + "\"" + email + "\"" + ", orderStatus:" + "\"In Cart\""+ "}";
+            var filter = "{ email: " + "\"" + email + "\"" + ", orderStatus:" + "\"In Cart\"" + "}";
             var collection = _database.GetCollection<BsonDocument>("Orders");
             var details = collection.FindAsync(filter).ToBsonDocument();
             return details;
+
         }
-        public BsonDocument GetDeliveredDetails(String email)
+        public void GetDeliveredDetails(String email)
         {
-            var filter = "{ email: " + "\"" + email + "\"" + ", orderStatus:" + "\"Deliverd\"" + "}";
-            var collection = _database.GetCollection<BsonDocument>("Orders");
-            var details = collection.FindAsync(filter).ToBsonDocument();
-            return details;
+            var ordersCollection = _database.GetCollection<Order>("Orders");
+            var deliveryOrderDetailsCollection = _database.GetCollection<DeliveryExecutives>("DeliveryExecutives");
+            var deliveryExecutivesCollection = _database.GetCollection<DeliveryDetails>("DeliveryOrderDetails");
+
+            // Specify the delivery executive's email
+            
+
+            // Query to get delivered order details for a specific delivery executive
+            //var filter = Builders<Order>.Filter.Eq("orderStatus", "Delivered");
+            //var deliveredOrderDetails = ordersCollection.AsQueryable()
+            //    .Join(deliveryOrderDetailsCollection.AsQueryable(),
+            //        order => order._id.$oid,
+            //        deliveryOrderDetail => deliveryOrderDetail.orderId,
+            //        (order, deliveryOrderDetail) => new { order, deliveryOrderDetail })
+            //    .Join(deliveryExecutivesCollection.AsQueryable(),
+            //        combined => combined.deliveryOrderDetail.deliveryExecutiveId,
+            //        deliveryExecutive => deliveryExecutive._id.$oid,
+            //        (combined, deliveryExecutive) => new
+            //        {
+            //            OrderId = combined.order._id.$oid,
+            //            DeliveryExecutiveName = deliveryExecutive.name,
+            //            // Add more properties as needed
+            //        })
+            //    .Where(result => result.DeliveryExecutiveName == email)
+            //    .ToList();
+
+
+
+
+
+
         }
 
 

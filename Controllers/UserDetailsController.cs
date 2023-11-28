@@ -50,8 +50,9 @@ namespace OnlineGrocery.Controllers
         {
             try
             {
-                var details = _mongoConnService.GetDeliveredDetails(UserEmail);
-                return details.ToString();
+                 _mongoConnService.GetDeliveredDetails(UserEmail);
+                //return details.ToString();
+                return null;
             }
             catch (Exception ex)
             {
