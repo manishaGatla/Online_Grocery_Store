@@ -19,17 +19,17 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpGet("get")]
-        public BsonDocument GetUsers(String UserEmail )
+        public String GetUsers (String UserEmail )
         {
             try
             {
 
                 var user = _mongoConnService.GetUserByUseremail(UserEmail);
-                return user.ToBsonDocument();
+                return user;
             }
             catch (Exception ex)
             {
-                return ex.Message.ToBsonDocument();
+                return ex.Message;
             }
         }
         [HttpGet("getCartItems")]
