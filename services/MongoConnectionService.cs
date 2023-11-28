@@ -27,6 +27,11 @@ namespace OnlineGrocery.services
             var collection = _database.GetCollection<BsonDocument>(collectionName);
             collection.InsertOne(document);
         }
+        public async Task AddToCart( BsonDocument document)
+        {
+            var collection = _database.GetCollection<BsonDocument>("Cart");
+            collection.InsertOne(document);
+        }
 
         public async Task UpdateDocumentAsync(string collectionName, string filter, object document)
         {
