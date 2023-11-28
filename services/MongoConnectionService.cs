@@ -194,9 +194,9 @@ namespace OnlineGrocery.services
             return details;
         }
 
-        public List<ProductsModel> GetAllProductsByCategories(String category)
+        public List<ProductsModel> GetAllProductsByCategories(List<String> category)
         {
-            var filter = "{ Category: " + "\"" + category + "\"" + "}";
+            var filter = Builders<ProductsModel>.Filter.In("Category", category);//"{ Category: " + "\"" + category + "\"" + "}";
             var collection = _database.GetCollection<ProductsModel>("Products");
             var details = collection.Find<ProductsModel>(filter).ToList();
             foreach (var product in details)
