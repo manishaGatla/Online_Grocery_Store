@@ -117,3 +117,54 @@ button {
 .pd-b-13{
   padding-bottom: 13px;
 }
+
+
+.margins{
+margin-top: 10px !important;
+margin-bottom: 10px !important;
+margin-left: 10px;
+}
+
+.login-container {
+  background: #e7d9dc99;
+  margin: 0 auto;
+  margin-top: 30px !important;
+  width: 80%;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: stretch;
+  }
+
+  
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  margin-top: 25px;
+}
+
+.wd-25{
+  width: 25%  !important;
+}
+
+input {
+  height: 24px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+select{
+  height: 41px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+.c-r{
+  color: red;
+}

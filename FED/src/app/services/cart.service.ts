@@ -31,6 +31,6 @@ export class CartService {
   }
 
   updateItemFromCart(cartItemId : any, quantity: any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '' +cartItemId + quantity, null);
+    return this.httpClient.post(this.baseurl + '/api/Update/updateCart?id=' +cartItemId + "&quantity=" + quantity, null);
   }
 }

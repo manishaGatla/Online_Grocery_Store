@@ -77,6 +77,24 @@ namespace OnlineGrocery.Controllers
             
             
         }
+        [HttpPost("addProduct")]
+        public async Task<String> addProduct(ProductsModel productDetails)
+        {
+            try
+            {
+
+
+                await _mongoConnService.AddProduct(productDetails.ToBsonDocument());
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+        }
+
 
         [HttpGet("getCart")]
         public List<GetCartModel> getAllCartDetails(String UserEmail)
