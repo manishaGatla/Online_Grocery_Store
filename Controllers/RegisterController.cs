@@ -18,33 +18,38 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("newUser/deliveryExec")]
-        public async Task<IActionResult> AddDeliveryExecutive([FromBody]InsertDeliveryExecutives  deliveryExcData)
+        public async Task<String> AddDeliveryExecutive([FromBody]InsertDeliveryExecutives  deliveryExcData)
         {
             try
             {
               
                 await _mongoConnService.InsertDocumentAsync("DeliveryExecutives", deliveryExcData.ToBsonDocument());
-                return Ok("");
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+                
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error: {ex.Message}");
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
         }
 
         [HttpPost("newUser/customer")]  
-        public async Task<IActionResult> AddCustomer([FromBody] InsertCustomer customerData)
+        public async Task<String> AddCustomer([FromBody] InsertCustomer customerData)
         {
             try
             {
                 // Example: Inserting a document into MongoDB
                 
                 await _mongoConnService.InsertDocumentAsync("Customers", customerData.ToBsonDocument());
-                return Ok("Success");
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error: {ex.Message}");
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
         }
 

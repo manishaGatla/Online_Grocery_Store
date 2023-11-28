@@ -29,7 +29,8 @@ namespace OnlineGrocery.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
         }
         [HttpGet("getCartItems")]
@@ -42,9 +43,29 @@ namespace OnlineGrocery.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
             
+        }
+        [HttpPost("removeFromCart")]
+        public async Task<String> removeFromCart(String id)
+        {
+            try
+            {
+                object _id = ObjectId.Parse(id);
+
+                await _mongoConnService.RemoveFromCart(_id);
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+
         }
         [HttpGet("getDeliveredOrders")]
         public string getDeliveredOrders(String UserEmail)
@@ -53,11 +74,13 @@ namespace OnlineGrocery.Controllers
             {
                  _mongoConnService.GetDeliveredDetails(UserEmail);
                 //return details.ToString();
-                return null;
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
         }
         [HttpGet("getAllProducts")]
