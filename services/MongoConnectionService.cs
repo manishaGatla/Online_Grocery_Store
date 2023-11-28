@@ -124,7 +124,7 @@ namespace OnlineGrocery.services
                         
             var filter = "{ email: " + "\"" + email + "\"" + "}";
             var collection = _database.GetCollection<BsonDocument>(type);
-            await collection.UpdateManyAsync(filter, updateDetails.ToBsonDocument());
+            await collection.UpdateManyAsync(filter, updateDetails1);
         }
         public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
         {
@@ -137,7 +137,7 @@ namespace OnlineGrocery.services
                         .Set("routingNumber", updateDetails.routingNumber);
             var filter = "{ email: " + "\"" + email + "\"" + "}";
             var collection = _database.GetCollection<BsonDocument>(type);
-            await collection.UpdateOneAsync(filter, updateDetails1.ToBsonDocument());
+            await collection.UpdateOneAsync(filter, updateDetails1);
 
         }
         public BsonDocument GetCartDetails(String email)
