@@ -39,6 +39,17 @@ export class CartComponent implements OnInit {
     })
   }
 
+  updateCartItem(item: any){
+    var cartItemId = item._id;
+    var quantity = item.quantity;
+    this.cartService.updateItemFromCart(cartItemId, quantity).subscribe((res)=>{
+      if(res){
+        this.notificationService.messageshow.next('Item Updated from Cart.');
+        this.getCartDetails();
+      }
+    })
+  }
+
 
   // cartItems = [
   //   {

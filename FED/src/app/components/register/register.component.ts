@@ -56,7 +56,7 @@ export class RegisterComponent implements OnInit{
         password: this.password,
         phoneNumber: this.phoneNumber,
         accountNumber : this.accountNumber,
-        accountHolderName: this.accountHolderName,
+        nameOnCard: this.accountHolderName,
         routingNumber : this.routingNumber
       }
     }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +18,19 @@ export class CartService {
   } ;
   constructor(private httpClient: HttpClient) { }
 
-  getCartItemsByEmail(email: any){
+  getCartItemsByEmail(email: any): Observable<any>{
     return this.httpClient.get(this.baseurl + '/api/Orders/getCart?UserEmail=' + email);
   }
 
-  removeItemFromCart(cartItemId : any){
+  removeItemFromCart(cartItemId : any): Observable<any>{
     return this.httpClient.post(this.baseurl + '' , cartItemId);
   }
 
-  buyCartItems(cartItems: any, emailId: any){
-    this.httpClient.post(this.baseurl + '' + emailId , cartItems);
+  buyCartItems(cartItems: any, emailId: any): Observable<any>{
+    return this.httpClient.post(this.baseurl + '' + emailId , cartItems);
+  }
+
+  updateItemFromCart(cartItemId : any, quantity: any): Observable<any>{
+    return this.httpClient.post(this.baseurl + '' +cartItemId + quantity, null);
   }
 }
