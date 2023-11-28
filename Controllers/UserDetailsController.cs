@@ -25,7 +25,7 @@ namespace OnlineGrocery.Controllers
             {
 
                 var user = _mongoConnService.GetUserByUseremail(UserEmail);
-                return user.ToBsonDocument();
+                return user;
             }
             catch (Exception ex)
             {
