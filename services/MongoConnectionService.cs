@@ -58,6 +58,14 @@ namespace OnlineGrocery.services
             var collection = _database.GetCollection<BsonDocument>(collectionName);
             await collection.UpdateManyAsync(filter, document.ToBsonDocument());
         }
+        public async Task UpdateCart(object id, int quantity)
+        {
+            var updateDetails = Builders<BsonDocument>.Update
+                        .Set("Quantity", quantity);
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            var collection = _database.GetCollection<BsonDocument>("Cart");
+            await collection.UpdateOneAsync(filter, updateDetails);
+        }
 
         public async Task GetDocumentsAsync(string collectionName, string filter)
         {
