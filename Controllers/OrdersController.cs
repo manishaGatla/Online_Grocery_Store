@@ -59,17 +59,19 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("addToCart")]
-        public async Task<IActionResult> addtocart(CartModel cartDetails)
+        public async Task<String> addtocart(CartModel cartDetails)
         {
             try
             {
 
                 await _mongoConnService.AddToCart(cartDetails.ToBsonDocument());
-                return Ok("Success");
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Error: {ex.Message}");
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
             }
             
             

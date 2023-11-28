@@ -96,10 +96,17 @@ namespace OnlineGrocery.services
         //{
         //    BsonDocument details = null;
         //    var collection = _database.GetCollection<BsonDocument>();
-            
+
 
         //    return details; 
         //}
+
+        public async Task RemoveFromCart(object id)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", id);
+            var collection = _database.GetCollection<BsonDocument>("Cart");
+            await collection.DeleteOneAsync(filter);
+        }
 
         public List<Categories> GetAllCategories()
         {

@@ -16,7 +16,7 @@ namespace OnlineGrocery.Controllers
             _mongoConnService = mongoConnService;
         }
         [HttpPost("update")]
-        public async Task<IActionResult> UpdateUserDetails([FromBody] UpdateDetialsModel userData)
+        public async Task<String> UpdateUserDetails([FromBody] UpdateDetialsModel userData)
         {
             string email = userData.filter;
             string type = userData.role;
@@ -26,10 +26,12 @@ namespace OnlineGrocery.Controllers
                 try
                 {
                     await _mongoConnService.UpdateDetails(email, userData.updateData, type);
+
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, $"Error: {ex.Message}");
+                    var result1 = new BsonDocument("error", ex.Message);
+                    return result1.ToString();
                 }
 
             }
@@ -42,11 +44,13 @@ namespace OnlineGrocery.Controllers
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, $"Error: {ex.Message}");
+                    var result1 = new BsonDocument("error", ex.Message);
+                    return result1.ToString();
                 }
             }
 
-            return Ok("Success");
+            var result = new BsonDocument("success", "Added");
+            return result.ToString();
 
 
         }
