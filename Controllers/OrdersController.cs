@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnlineGrocery.Models;
 using OnlineGrocery.services;
 
 namespace OnlineGrocery.Controllers
@@ -27,5 +28,20 @@ namespace OnlineGrocery.Controllers
         //        return ex.Message;
         //    }
         //}
+        [HttpGet("getAllCategories")]
+        public List<Categories> getAllCategories()
+        {
+            try
+            {
+
+                var categories = _mongoConnService.GetAllCategories();
+                return categories;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
     }
 }

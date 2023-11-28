@@ -82,6 +82,18 @@ namespace OnlineGrocery.services
         //    return details; 
         //}
 
+        public List<Categories> GetAllCategories()
+        {
+            var filter = Builders<Categories>.Filter.Empty;
+            var collection = _database.GetCollection<Categories>("Categories");
+            var details = collection.Find<Categories>(filter).ToList();
+            foreach (var product in details)
+            {
+                product._id = product._id.ToString();
+            }
+            return details;
+        }
+
 
         public async Task UpdateCustomerDetails(string email, Customer updateDetails, string type)
         {
