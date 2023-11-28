@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using OnlineGrocery.Models;
 using OnlineGrocery.services;
 
@@ -18,17 +19,17 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpGet("get")]
-        public String GetUsers(String UserEmail )
+        public BsonDocument GetUsers(String UserEmail )
         {
             try
             {
 
                 var user = _mongoConnService.GetUserByUseremail(UserEmail);
-                return user.ToString();
+                return user.ToBsonDocument();
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                return ex.Message.ToBsonDocument();
             }
         }
         [HttpGet("getCartItems")]
