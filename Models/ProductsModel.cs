@@ -9,7 +9,7 @@
         public string Price_Per_Each { get; set; }
         public string Category { get; set; }
         public string Product_URL { get; set; }
-        public string? Availability { get; set; } = "yes";
+        public string? Availability { get; set; } = "Yes";
 
 
     }
@@ -22,7 +22,7 @@
         public string Price_Per_Each { get; set; }
         public string Category { get; set; }
         public string Product_URL { get; set; }
-        public string? Availability { get; set; } = "yes";
+        public string? Availability { get; set; } = "Yes";
 
 
     }

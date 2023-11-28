@@ -72,6 +72,18 @@ namespace OnlineGrocery.services
             var collection = _database.GetCollection<BsonDocument>("Cart");
             await collection.UpdateOneAsync(filter, updateDetails);
         }
+        public async Task UpdateProductDetails(ProductsModelUpdate ProductDetails)
+        {
+            var updateDetails = Builders<BsonDocument>.Update
+                        .Set("Availability", ProductDetails.Availability)
+                        .Set("Price_Per_Each", ProductDetails.Price_Per_Each)
+                        .Set("Previous_Price", ProductDetails.Previous_Price);
+
+
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(ProductDetails._id));
+            var collection = _database.GetCollection<BsonDocument>("Products");
+            await collection.UpdateOneAsync(filter, updateDetails);
+        }
 
         public async Task GetDocumentsAsync(string collectionName, string filter)
         {

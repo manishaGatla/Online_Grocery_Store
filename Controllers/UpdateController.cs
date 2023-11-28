@@ -77,7 +77,7 @@ namespace OnlineGrocery.Controllers
             try
             {
                  
-                //_mongoConnService.UpdateProductDetails(productDetails);
+                _mongoConnService.UpdateProductDetails(productDetails);
                 var result = new BsonDocument("success", "Updated");
                 return result.ToString();
             }
