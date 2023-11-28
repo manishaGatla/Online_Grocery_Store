@@ -11,4 +11,11 @@
         public string Product_URL { get; set; }
 
     }
+    public class Categories
+    {
+        public object? _id { get; set; }
+        public string categoryName { get; set; }
+
+        public string isReturnable { get; set; }
+    }
 }

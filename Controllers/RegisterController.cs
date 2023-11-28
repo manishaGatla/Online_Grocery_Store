@@ -18,12 +18,12 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("newUser/deliveryExec")]
-        public async Task<IActionResult> AddDeliveryExecutive([FromBody]BsonDocument  deliveryExcData)
+        public async Task<IActionResult> AddDeliveryExecutive([FromBody]InsertDeliveryExecutives  deliveryExcData)
         {
             try
             {
-                // Example: Inserting a document into MongoDB
-                await _mongoConnService.InsertDocumentAsync("DeliveryExecutives", deliveryExcData);
+              
+                await _mongoConnService.InsertDocumentAsync("DeliveryExecutives", deliveryExcData.ToBsonDocument());
                 return Ok("Document added to MongoDB");
             }
             catch (Exception ex)
@@ -33,12 +33,13 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("newUser/customer")]  
-        public async Task<IActionResult> AddCustomer([FromBody] BsonDocument customerData)
+        public async Task<IActionResult> AddCustomer([FromBody] InsertCustomer customerData)
         {
             try
             {
                 // Example: Inserting a document into MongoDB
-                await _mongoConnService.InsertDocumentAsync("Customers", customerData);
+                
+                await _mongoConnService.InsertDocumentAsync("Customers", customerData.ToBsonDocument());
                 return Ok("Document added to MongoDB");
             }
             catch (Exception ex)
