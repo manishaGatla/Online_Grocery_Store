@@ -44,7 +44,7 @@ namespace OnlineGrocery.Controllers
             }
         }
         [HttpGet("getProductsByCategory")]
-        public List<ProductsModel> getAllProductsByCategories(String Category)
+        public List<ProductsModel> getAllProductsByCategories(List<String> Category)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace OnlineGrocery.Controllers
             {
 
                 await _mongoConnService.AddToCart(cartDetails.ToBsonDocument());
-                return Ok("Document added to MongoDB");
+                return Ok("Success");
             }
             catch (Exception ex)
             {

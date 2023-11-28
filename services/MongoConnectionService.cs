@@ -116,15 +116,28 @@ namespace OnlineGrocery.services
 
         public async Task UpdateCustomerDetails(string email, Customer updateDetails, string type)
         {
+            var updateDetails1 = Builders<BsonDocument>.Update
+                        .Set("name", updateDetails.name)
+                        .Set("email", updateDetails.email)
+                        .Set("password", updateDetails.password)
+                        .Set("phoneNumber", updateDetails.phoneNumber);
+                        
             var filter = "{ email: " + "\"" + email + "\"" + "}";
             var collection = _database.GetCollection<BsonDocument>(type);
             await collection.UpdateManyAsync(filter, updateDetails.ToBsonDocument());
         }
         public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
         {
+            var updateDetails1 = Builders<BsonDocument>.Update
+                        .Set("name", updateDetails.name)
+                        .Set("email", updateDetails.email)
+                        .Set("password", updateDetails.password)
+                        .Set("phoneNumber", updateDetails.phoneNumber)
+                        .Set("accountNumber", updateDetails.accountNumber)
+                        .Set("routingNumber", updateDetails.routingNumber);
             var filter = "{ email: " + "\"" + email + "\"" + "}";
             var collection = _database.GetCollection<BsonDocument>(type);
-            await collection.UpdateManyAsync(filter, updateDetails.ToBsonDocument());
+            await collection.UpdateOneAsync(filter, updateDetails1.ToBsonDocument());
 
         }
         public BsonDocument GetCartDetails(String email)
@@ -181,9 +194,9 @@ namespace OnlineGrocery.services
             return details;
         }
 
-        public List<ProductsModel> GetAllProductsByCategories(String category)
+        public List<ProductsModel> GetAllProductsByCategories(List<String> category)
         {
-            var filter = "{ Category: " + "\"" + category + "\"" + "}";
+            var filter = Builders<ProductsModel>.Filter.In("Category", category);//"{ Category: " + "\"" + category + "\"" + "}";
             var collection = _database.GetCollection<ProductsModel>("Products");
             var details = collection.Find<ProductsModel>(filter).ToList();
             foreach (var product in details)
