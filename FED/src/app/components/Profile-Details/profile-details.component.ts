@@ -16,11 +16,12 @@ export class ProfileDetailsComponent implements OnInit{
   }
 
   updateProfile(){
-  var filter ="{email:"+ this.email+"}";
+  var filter =this.email;
   var update = this.getBody();
   var body = {
     filter: filter,
-    update : update,
+    updateData : this.loginService.isAdmin || this.loginService.isDeliveryExec ? update : null,
+    updateCustomer: this.loginService.isCustomer ? update : null,
     role: this.loginService.isAdmin ? "Admin": this.loginService.isDeliveryExec ? "DeliveryExecutive" : "Customer"
   }
   this.loginService.updateDetailsByEmail(body, this.email).subscribe((res)=>{
