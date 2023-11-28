@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
+using MongoDB.Driver;
 using OnlineGrocery.Models;
 using OnlineGrocery.services;
 
@@ -23,8 +25,11 @@ namespace OnlineGrocery.Controllers
             {
                 try
                 {
-                    var updateDetails = userData.updateData;
-                    await _mongoConnService.UpdateDetails(email, updateDetails, type);
+                    //var updateDetails = Builders<BsonDocument>.Update
+                    //    .Set(name)
+
+                    //var 
+                    //await _mongoConnService.UpdateDetails(email, updateDetails, type);
                 }
                 catch (Exception ex)
                 {
