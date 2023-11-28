@@ -19,7 +19,7 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpGet("get")]
-        public BsonDocument GetUsers(String UserEmail )
+        public String GetUsers (String UserEmail )
         {
             try
             {
@@ -29,7 +29,7 @@ namespace OnlineGrocery.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message.ToBsonDocument();
+                return ex.Message;
             }
         }
         [HttpGet("getCartItems")]

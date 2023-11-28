@@ -44,7 +44,7 @@ namespace OnlineGrocery.services
             var collection = _database.GetCollection<BsonDocument>(collectionName);
             await collection.FindAsync(filter);
         }
-        public  BsonDocument GetUserByUseremail(string useremail)
+        public  String GetUserByUseremail(string useremail)
         {
             String CollectionName = "Customers";
             
@@ -61,9 +61,15 @@ namespace OnlineGrocery.services
                 CollectionName = "DeliveryExecutives";
 
             }
-            details.Add(CollectionName, CollectionName);
 
-            return details;
+            if (details != null) {
+                details.Add("isAdmin", CollectionName == "Admins" ? true : false);
+                details.Add("isCustomer", CollectionName == "Customers" ? true : false);
+                details.Add("isDeliveryExec", CollectionName == "DeliveryExecutives" ? true : false);
+                return details.ToString();
+            }
+            return ("No Data Found");
+            
         }
         //public  BsonDocument GetAllOrders()
         //{
