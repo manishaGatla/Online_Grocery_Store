@@ -22,9 +22,9 @@ export class ProfileDetailsComponent implements OnInit{
     filter: filter,
     updateData : this.loginService.isAdmin || this.loginService.isDeliveryExec ? update : null,
     updateCustomer: this.loginService.isCustomer ? update : null,
-    role: this.loginService.isAdmin ? "Admin": this.loginService.isDeliveryExec ? "DeliveryExecutive" : "Customer"
+    role: this.loginService.isAdmin ? "Admins": this.loginService.isDeliveryExec ? "DeliveryExecutives" : "Customers"
   }
-  this.loginService.updateDetailsByEmail(body, this.email).subscribe((res)=>{
+  this.loginService.updateDetailsByEmail(body).subscribe((res)=>{
     if(res){
       this.notificationService.messageshow.next('Details Updated Successfully.');
     }

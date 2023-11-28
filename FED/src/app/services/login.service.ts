@@ -17,12 +17,11 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   public getDetailsByEmail(emailId: any){
-    const headers = new HttpHeaders().set('Accept', 'text/plain');
-    return this.http.get(this.baseurl + "/api/UserDetails/get?UserEmail=" +emailId ,{headers} );
+    return this.http.get(this.baseurl + "/api/UserDetails/get?UserEmail=" +emailId );
   } 
 
-  public updateDetailsByEmail(reqBody: any,emailId : any){
-    return this.http.post(this.baseurl + "/api/Update/update?emailId=" +emailId ,reqBody );
+  public updateDetailsByEmail(reqBody: any){
+    return this.http.post(this.baseurl + "/api/Update/update" ,reqBody );
   }
 
 }
