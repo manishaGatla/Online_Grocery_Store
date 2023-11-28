@@ -71,5 +71,22 @@ namespace OnlineGrocery.Controllers
             }
 
         }
+        [HttpPost("updateProducts")]
+        public async Task<String> updateProductDetails(ProductsModelUpdate productDetails)
+        {
+            try
+            {
+                 
+                //_mongoConnService.UpdateProductDetails(productDetails);
+                var result = new BsonDocument("success", "Updated");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+
+        }
     }
 }

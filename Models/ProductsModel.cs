@@ -9,6 +9,21 @@
         public string Price_Per_Each { get; set; }
         public string Category { get; set; }
         public string Product_URL { get; set; }
+        public string? Availability { get; set; } = "yes";
+
+
+    }
+    public class ProductsModelUpdate
+    {
+        public string? _id { get; set; }
+        public string Name { get; set; }
+
+        public string Previous_Price { get; set; }
+        public string Price_Per_Each { get; set; }
+        public string Category { get; set; }
+        public string Product_URL { get; set; }
+        public string? Availability { get; set; } = "yes";
+
 
     }
     public class Categories

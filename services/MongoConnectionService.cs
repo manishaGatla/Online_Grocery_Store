@@ -33,6 +33,12 @@ namespace OnlineGrocery.services
             var collection = _database.GetCollection<BsonDocument>("Cart");
             collection.InsertOne(document);
         }
+        public async Task AddProduct(BsonDocument document)
+        {
+            document.Remove("_id");
+            var collection = _database.GetCollection<BsonDocument>("Products");
+            collection.InsertOne(document);
+        }
 
         public List<GetCartModel> GetAllCartDetails(String UserEmail)
         {
