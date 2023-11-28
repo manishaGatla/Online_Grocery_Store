@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using OnlineGrocery.Models;
 using System.Collections;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace OnlineGrocery.services
 {
@@ -21,10 +22,10 @@ namespace OnlineGrocery.services
         }
 
 
-        public async Task InsertDocumentAsync(string collectionName, object document)
+        public async Task InsertDocumentAsync(string collectionName, BsonDocument document)
         {
             var collection = _database.GetCollection<BsonDocument>(collectionName);
-            await collection.InsertOneAsync(document.ToBsonDocument());
+            collection.InsertOne(document);
         }
 
         public async Task UpdateDocumentAsync(string collectionName, string filter, object document)
@@ -63,6 +64,7 @@ namespace OnlineGrocery.services
             }
 
             if (details != null) {
+                details["_id"] = details["_id"].ToString();
                 details.Add("isAdmin", CollectionName == "Admins" ? true : false);
                 details.Add("isCustomer", CollectionName == "Customers" ? true : false);
                 details.Add("isDeliveryExec", CollectionName == "DeliveryExecutives" ? true : false);
@@ -135,6 +137,17 @@ namespace OnlineGrocery.services
 
 
 
+        }
+        public List<ProductsModel> GetAllProducts()
+        {
+            var filter = Builders<ProductsModel>.Filter.Empty;
+            var collection = _database.GetCollection<ProductsModel>("Products");
+            var details = collection.Find<ProductsModel>(filter).ToList();
+            foreach (var product in details)
+            {
+                product._id = product._id.ToString();
+            }
+            return details;
         }
 
 

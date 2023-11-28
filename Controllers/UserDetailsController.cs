@@ -60,5 +60,20 @@ namespace OnlineGrocery.Controllers
                 return ex.Message;
             }
         }
+        [HttpGet("getAllProducts")]
+        public List<ProductsModel> GetAllProducts()
+        {
+            try
+            {
+                var details = _mongoConnService.GetAllProducts();
+                return details;
+                 
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
