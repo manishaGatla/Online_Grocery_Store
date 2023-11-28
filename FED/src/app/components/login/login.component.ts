@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,21 +10,25 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class LoginComponent {
 
-  constructor(public loginService: LoginService, private notificationService: NotificationService){}
+  constructor(public loginService: LoginService, private notificationService: NotificationService, private router: Router){}
   email: any;
   password: any;
   onLogin(){
     this.loginService.getDetailsByEmail(this.email).subscribe((res : any)=>{
-      res= 
+
       if(res){
         var data = res;
-
         this.loginService.profileDetails = res;
+        this.loginService.isAdmin = res.isAdmin;
+        this.loginService.isDeliveryExec = res.isDeliveryExec;
+        this.loginService.isCustomer = res.isCustomer;
+
         if(data.password == this.password){
           this.loginService.isLoginSuccessful= true;
-          window.location.href ='/home';
+          this.router.navigateByUrl('/home');
         }
         else if(data.password !== this.password){
+          this.resetFields();
           this.notificationService.messageshow.next("Incorrect password, please enter correct password and try again.");
         }
 
@@ -33,6 +38,11 @@ export class LoginComponent {
       }
 
     })
+  }
+
+  resetFields(){
+    this.email = null;
+    this.password = null;
   }
 
 }

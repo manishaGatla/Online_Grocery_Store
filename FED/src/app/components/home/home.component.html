@@ -1,4 +1,4 @@
-<div class="items-grid" *ngif="loginService.isCustomer">
+<section class="items-grid" *ngIf="loginService.isCustomer">
     <div class="item" *ngFor="let item of items">
       <img [src]="item.imageUrl" alt="{{ item.title }}" />
       <h2>{{ item.title }}</h2>
@@ -8,9 +8,9 @@
         <button (click)="addToCart(item)">Add to Cart</button>
       </div>
     </div>
-</div>
+</section>
 
-<div *ngif="loginService.isAdmin">
+<section *ngIf="loginService.isAdmin">
   <div>
     <div>
       <div *ngIf="!isAddNewProdBtnClicked && !isEditProductBtnClicked">
@@ -22,14 +22,14 @@
             <span class="product-price">{{ item.price | currency }}</span>
           </div>
           <div>
-            <button click="editProduct(item)">
+            <button (click)="editProduct(item)">
               Edit Product
             </button>
           </div>
         </div>
 
         <div>
-          <button click="addNewProdBtnClicked()">
+          <button (click)="addNewProdBtnClicked()">
             Add New Product
           </button>
         </div>
@@ -86,10 +86,10 @@
     
   </div>
 
-</div>
+</section>
 
 
-<div *ngif="loginService.isDeliveryExec">
+<div *ngIf="loginService.isDeliveryExec">
   <app-deliverables></app-deliverables>
 </div>
 

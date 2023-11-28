@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -17,7 +17,8 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   public getDetailsByEmail(emailId: any){
-    return this.http.get(this.baseurl + "/api/UserDetails/get?UserEmail=" +emailId );
+    const headers = new HttpHeaders().set('Accept', 'text/plain');
+    return this.http.get(this.baseurl + "/api/UserDetails/get?UserEmail=" +emailId ,{headers} );
   } 
 
   public updateDetailsByEmail(reqBody: any,emailId : any){

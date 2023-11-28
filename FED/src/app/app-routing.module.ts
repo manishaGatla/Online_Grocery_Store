@@ -8,6 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ProfileDetailsComponent } from './components/Profile-Details/profile-details.component';
 
 const routes: Routes = [
+  {path:'' ,component:LoginComponent},
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'profileDetails', component: ProfileDetailsComponent },

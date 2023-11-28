@@ -94,7 +94,11 @@ export class HomeComponent implements OnInit {
   constructor(public loginService: LoginService, private productService: ProductsService) {}
 
   ngOnInit() {
-    
+    if(this.loginService.isCustomer){
+      this.productService.getProducts().subscribe((res)=>{
+        this.products = res;
+      })
+    }
   }
 
   onProductAddSubmit(): void {

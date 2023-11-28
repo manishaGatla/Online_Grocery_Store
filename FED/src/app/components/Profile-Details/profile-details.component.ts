@@ -39,7 +39,7 @@ export class ProfileDetailsComponent implements OnInit{
         name: this.loginService.profileDetails.name,
         email : this.loginService.profileDetails.email,
         password: this.loginService.profileDetails.password,
-        phoneNumber: this.loginService.profileDetails.phone   
+        phoneNumber: this.loginService.profileDetails.phoneNumber   
       }
     }
     else{
@@ -47,7 +47,7 @@ export class ProfileDetailsComponent implements OnInit{
         name: this.loginService.profileDetails.name,
         email : this.loginService.profileDetails.email,
         password: this.loginService.profileDetails.password,
-        phoneNumber: this.loginService.profileDetails.phone,
+        phoneNumber: this.loginService.profileDetails.phoneNumber,
         accountNumber : this.loginService.profileDetails.accountNumber,
         accountHolderName: this.loginService.profileDetails.accountHolderName,
         routingNumber : this.loginService.profileDetails.routingNumber

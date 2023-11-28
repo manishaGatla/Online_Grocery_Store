@@ -10,10 +10,14 @@ export class ProductsService {
 
 
   addProduct(reqBody: any ){
-   return this.httpClient.post(this.baseurl + '', reqBody);
+   return this.httpClient.post(this.baseurl + '/api/UserDetails/', reqBody);
   }
 
   editProduct(reqBody: any){
     return this.httpClient.post(this.baseurl + '', reqBody);
+  }
+
+  getProducts(){
+    return this.httpClient.get(this.baseurl + '/api/UserDetails/getAllProducts');
   }
 }

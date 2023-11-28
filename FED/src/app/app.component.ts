@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationMsgComponent } from './components/notification-msg/notification-msg.component';
 import { LoginService } from './services/login.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { LoginService } from './services/login.service';
 })
 export class AppComponent {
 
-  constructor(public loginService : LoginService){}
+  constructor(public loginService : LoginService, private router: Router){}
   
 
   logOut(){
@@ -19,5 +20,6 @@ export class AppComponent {
     this.loginService.isDeliveryExec = false;
     this.loginService.isLoginSuccessful = false;
     this.loginService.isLoggedOutSuccessful = true;
+    this.router.navigateByUrl('login');
   }
 }

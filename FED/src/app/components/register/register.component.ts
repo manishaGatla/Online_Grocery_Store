@@ -9,7 +9,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class RegisterComponent implements OnInit{
   name: string = '';
-  phone: string = '';
+  phoneNumber: string = '';
   email: string = '';
   password: string = '';
   role: string = 'customer'; // Default role
@@ -28,25 +28,21 @@ export class RegisterComponent implements OnInit{
   onSubmit() {
    var reqbody = this.getBody();
    if(this.role == 'deliveryExe'){
-    // this.registerService.addDeliveryExec(reqbody).subscribe((res)=>{
-    //   if(res){
-    //     this.notificationService.showSuccess('Registration Successful!');
-    //     window.location.href ='login';
-    //   }
-    // })
-   // this.notificationService.showSuccess('Registration Successful!');
-    this.notificationService.messageshow.next('Registration Successful!');
-    window.location.href ='login';
+    this.registerService.addDeliveryExec(reqbody).subscribe((res)=>{
+      if(res){
+        this.notificationService.messageshow.next('Registration Successful!');
+        window.location.href ='login';
+      }
+    })
+   
    }
    else{
-    // this.registerService.addCustomer(reqbody).subscribe((res)=>{
-    //   if(res){
-    //     this.notificationService.showSuccess('Registration Successful!');
-    //     window.location.href ='login';
-    //   }
-    // })
-    //window.location.href ='login';
-    this.notificationService.messageshow.next('Registration Successful!');
+    this.registerService.addCustomer(reqbody).subscribe((res)=>{
+      if(res){
+        this.notificationService.messageshow.next('Registration Successful!');
+        window.location.href ='login';
+      }
+    })
     
    }
 
@@ -58,7 +54,7 @@ export class RegisterComponent implements OnInit{
         name: this.name,
         email : this.email,
         password: this.password,
-        phoneNumber: this.phone,
+        phoneNumber: this.phoneNumber,
         accountNumber : this.accountNumber,
         accountHolderName: this.accountHolderName,
         routingNumber : this.routingNumber
@@ -69,7 +65,7 @@ export class RegisterComponent implements OnInit{
         name: this.name,
         email : this.email,
         password: this.password,
-        phoneNumber: this.phone   
+        phoneNumber: this.phoneNumber   
       }
       
 
