@@ -42,6 +42,19 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
+        [HttpGet("getProductsByCategory")]
+        public List<ProductsModel> getAllProductsByCategories(String Category)
+        {
+            try
+            {
 
+                var categories = _mongoConnService.GetAllProductsByCategories(Category);
+                return categories;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }
