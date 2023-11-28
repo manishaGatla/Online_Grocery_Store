@@ -162,6 +162,18 @@ namespace OnlineGrocery.services
             return details;
         }
 
+        public List<ProductsModel> GetAllProductsByCategories(String category)
+        {
+            var filter = "{ Category: " + "\"" + category + "\"" + "}";
+            var collection = _database.GetCollection<ProductsModel>("Products");
+            var details = collection.Find<ProductsModel>(filter).ToList();
+            foreach (var product in details)
+            {
+                product._id = product._id.ToString();
+            }
+            return details;
+        }
+
 
 
     }
