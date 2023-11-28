@@ -21,6 +21,10 @@ export class CartComponent implements OnInit {
     this.cartService.getCartItemsByEmail(this.loginService.profileDetails.email).subscribe((res)=>{
       if(res){
         this.cartItems = res;
+        this.cartItems.forEach((item: any)=>{
+
+          item.total = item.quantity * Number(item.price_Per_Each.split('/')[0].split('$')[1]);
+        })
       }
     })
   }
@@ -48,6 +52,10 @@ export class CartComponent implements OnInit {
         this.getCartDetails();
       }
     })
+  }
+
+  updateTotal(item: any){
+    item.total = item.quantity * Number(item.price_Per_Each.split('/')[0].split('$')[1]);
   }
 
 

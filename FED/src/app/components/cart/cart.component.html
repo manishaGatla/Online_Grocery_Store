@@ -7,11 +7,14 @@
       <div class="item-details pd-15" *ngIf="item.showDetails">
         
         <span class="pd-15"><label for="quantity">Quantity:</label>
-          <input type="number" id="quantity" name="quantity" min="1" step="1" class="quant-wd" [(ngModel)]="item.quantity"></span>
+          <input type="number" id="quantity" name="quantity" min="1" step="1" class="quant-wd" (change)="updateTotal(item)" [(ngModel)]="item.quantity"></span>
+        <div class="item-details pd-15">
+            <span class="item-price">Total Price: {{ item.total  }}</span>
+        </div>
 
         <div class="pd-15">
-          <button class="sub-btn" (click)="updateCartItem(item)">Update Cart Item</button>
-          <button class="sub-btn" (click)="remove(item)">Remove From Cart</button>
+          <button class="mr-l-10 sub-btn" (click)="updateCartItem(item)">Update Cart Item</button>
+          <button class="mr-l-10 sub-btn" (click)="remove(item)">Remove From Cart</button>
         </div>
       </div>
     </div>
