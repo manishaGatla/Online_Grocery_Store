@@ -13,18 +13,19 @@ namespace OnlineGrocery.Controllers
         {
             _mongoConnService = mongoConnService;
         }
-        [HttpGet("get")]
-        public String GetAllOders()
-        {
-            try
-            {
+        //[HttpGet("get")]
+        //public String GetAllOders()
+        //{
+        //    try
+        //    {
 
-                var user = _mongoConnService.GetAllOrders();
-                return user.ToString();
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-        }
+        //        var user = _mongoConnService.GetAllOrders();
+        //        return user.ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ex.Message;
+        //    }
+        //}
+    }
 }
