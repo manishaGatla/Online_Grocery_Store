@@ -25,11 +25,7 @@ namespace OnlineGrocery.Controllers
             {
                 try
                 {
-                    //var updateDetails = Builders<BsonDocument>.Update
-                    //    .Set("name": )
-
-                    //var
-                    //await _mongoConnService.UpdateDetails(email, updateDetails, type);
+                    await _mongoConnService.UpdateDetails(email, userData.updateData, type);
                 }
                 catch (Exception ex)
                 {
