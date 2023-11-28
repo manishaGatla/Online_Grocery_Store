@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using OnlineGrocery.Models;
 using OnlineGrocery.services;
 
@@ -55,6 +56,24 @@ namespace OnlineGrocery.Controllers
             {
                 return null;
             }
+        }
+
+        [HttpPost("addToCart")]
+        public async Task<IActionResult> addtocart(CartModel cartDetails)
+        {
+            try
+            {
+
+                await _mongoConnService.AddToCart(cartDetails.ToBsonDocument());
+                return Ok("Document added to MongoDB");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+            
+            
+            
         }
     }
 }
