@@ -15,7 +15,11 @@ export class LoginComponent {
   password: any;
   onLogin(){
     this.loginService.getDetailsByEmail(this.email).subscribe((res : any)=>{
-      if(res){
+      if(res && res.error != null){
+        this.resetFields();
+        this.notificationService.messageshow.next("User Not found, Please Register");
+      }
+      else{
         var data = res;
         this.loginService.profileDetails = res;
         this.loginService.isAdmin = res.isAdmin;
@@ -31,9 +35,6 @@ export class LoginComponent {
           this.notificationService.messageshow.next("Incorrect password, please enter correct password and try again.");
         }
 
-      }
-      else{
-        this.notificationService.messageshow.next("User Not found, Please Register");
       }
 
     })

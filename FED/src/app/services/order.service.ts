@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,23 +9,23 @@ export class OrderService {
   baseurl = "https://localhost:7274";
   constructor(private httpClient : HttpClient) { }
 
-  getOrdersByEmailId(emailId: any){
+  getOrdersByEmailId(emailId: any): Observable<any>{
     return this.httpClient.get(this.baseurl + '/api/get/orders?emailId =' + emailId);
   }
 
-  getOrders(){
+  getOrders(): Observable<any>{
     return this.httpClient.get(this.baseurl + '/api/get/orders');
   }
 
-  getDeliverables(emailId: any){
+  getDeliverables(emailId: any): Observable<any>{
     return this.httpClient.get(this.baseurl + '/api/get/ordersDeliverable?emailId =' + emailId);
   }
 
-  getDeliveredOrdersList(emailId: any){
+  getDeliveredOrdersList(emailId: any): Observable<any>{
     return this.httpClient.get(this.baseurl + '/api/get/getDeliveredOrdersList?emailId =' + emailId);
   }
 
-  updateOrderStatus(reqBody: any){
+  updateOrderStatus(reqBody: any): Observable<any>{
     return this.httpClient.post(this.baseurl + '' ,reqBody )
   }
 }

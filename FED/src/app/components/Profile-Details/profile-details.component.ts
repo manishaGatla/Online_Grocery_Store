@@ -49,7 +49,7 @@ export class ProfileDetailsComponent implements OnInit{
         password: this.loginService.profileDetails.password,
         phoneNumber: this.loginService.profileDetails.phoneNumber,
         accountNumber : this.loginService.profileDetails.accountNumber,
-        accountHolderName: this.loginService.profileDetails.accountHolderName,
+        nameOnCard: this.loginService.profileDetails.accountHolderName,
         routingNumber : this.loginService.profileDetails.routingNumber
       }
       

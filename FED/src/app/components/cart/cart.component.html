@@ -10,7 +10,7 @@
           <input type="number" id="quantity" name="quantity" min="1" step="1" class="quant-wd" [(ngModel)]="item.quantity"></span>
 
         <div class="pd-15">
-         
+          <button class="sub-btn" (click)="updateCartItem(item)">Update Cart Item</button>
           <button class="sub-btn" (click)="remove(item)">Remove From Cart</button>
         </div>
       </div>
