@@ -31,5 +31,32 @@ namespace OnlineGrocery.Controllers
                 return ex.Message;
             }
         }
+        [HttpGet("getCartItems")]
+        public String getCartDetails(String UserEmail)
+        {
+            try
+            {
+                var details = _mongoConnService.GetCartDetails(UserEmail);
+                return details.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
+        }
+        [HttpGet("getDeliveredOrders")]
+        public string getDeliveredOrders(String UserEmail)
+        {
+            try
+            {
+                var details = _mongoConnService.GetDeliveredDetails(UserEmail);
+                return details.ToString();
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
     }
 }
