@@ -24,7 +24,7 @@ namespace OnlineGrocery.Controllers
             {
               
                 await _mongoConnService.InsertDocumentAsync("DeliveryExecutives", deliveryExcData.ToBsonDocument());
-                return Ok("Document added to MongoDB");
+                return Ok("");
             }
             catch (Exception ex)
             {
@@ -40,7 +40,7 @@ namespace OnlineGrocery.Controllers
                 // Example: Inserting a document into MongoDB
                 
                 await _mongoConnService.InsertDocumentAsync("Customers", customerData.ToBsonDocument());
-                return Ok("Document added to MongoDB");
+                return Ok("Success");
             }
             catch (Exception ex)
             {

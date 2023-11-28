@@ -50,7 +50,7 @@ namespace OnlineGrocery.Controllers
                 }
             }
 
-            return Ok("Document Updated to MongoDB");
+            return Ok("Success");
 
 
         }

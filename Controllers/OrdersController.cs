@@ -65,7 +65,7 @@ namespace OnlineGrocery.Controllers
             {
 
                 await _mongoConnService.AddToCart(cartDetails.ToBsonDocument());
-                return Ok("Document added to MongoDB");
+                return Ok("Success");
             }
             catch (Exception ex)
             {
