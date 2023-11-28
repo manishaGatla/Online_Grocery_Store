@@ -75,5 +75,23 @@ namespace OnlineGrocery.Controllers
             
             
         }
+
+        [HttpGet("getCart")]
+        public List<GetCartModel> getAllCartDetails(String UserEmail)
+        {
+            try
+            {
+
+                var details =  _mongoConnService.GetAllCartDetails(UserEmail);
+                return details;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+
+
+        }
     }
 }

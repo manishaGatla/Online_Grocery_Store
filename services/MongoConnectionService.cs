@@ -34,6 +34,19 @@ namespace OnlineGrocery.services
             collection.InsertOne(document);
         }
 
+        public List<GetCartModel> GetAllCartDetails(String UserEmail)
+        {
+            
+            var filter = "{ CustomerEmail: " + "\"" + UserEmail + "\"" + "}";
+            var collection = _database.GetCollection<GetCartModel>("Cart");
+            var details = collection.Find<GetCartModel>(filter).ToList();
+            foreach (var product in details)
+            {
+                product._id = product._id.ToString();
+            }
+            return details;
+        }
+
         public async Task UpdateDocumentAsync(string collectionName, string filter, object document)
         {
             var collection = _database.GetCollection<BsonDocument>(collectionName);
