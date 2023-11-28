@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { LoginService } from 'src/app/services/login.service';
 import { ProductsService } from 'src/app/services/products.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +17,11 @@ export class HomeComponent implements OnInit {
   products: any ;
   categories: any;
   isDropdownOpen = false;
+  quantityValue: any;
 
 
 
-  constructor(public loginService: LoginService, private productService: ProductsService) {}
+  constructor(public loginService: LoginService, private productService: ProductsService, private router: Router) {}
 
   ngOnInit() {
     if(this.loginService.isCustomer){
@@ -27,6 +29,7 @@ export class HomeComponent implements OnInit {
         this.categories = resProd;
         this.productService.getProducts().subscribe((res)=>{
           this.products = res;
+          this.products.forEach((c: any)=> c.quantity = null);
         })
       })
      
@@ -74,18 +77,21 @@ export class HomeComponent implements OnInit {
     var selectedCategoriesName : any = [];
     this.selectedCategories.forEach((item: any) => {
      if(this.categories.findIndex((c: any)=> c._id == item) != -1){
-      selectedCategoriesName.push(this.categories.find((c: any)=> c._id == item).categoryName);
+      var categoryName = this.categories.find((c: any)=> c._id == item).categoryName;
+      selectedCategoriesName.push(categoryName.trim());
      }
     });
     if(selectedCategoriesName && selectedCategoriesName.length > 0){
-    this.productService.getProductsByCategories(selectedCategoriesName.join(',')).subscribe(products => {
+    this.productService.getProductsByCategories(selectedCategoriesName).subscribe(products => {
       this.products = products;
+      this.products.forEach((c: any)=> c.quantity = null);
       this.isDropdownOpen = !this.isDropdownOpen;
     });
   }
   else{
     this.productService.getProducts().subscribe((res)=>{
       this.products = res;
+      this.products.forEach((c: any)=> c.quantity = null);
       this.isDropdownOpen = !this.isDropdownOpen;
     })
   }
@@ -114,7 +120,12 @@ export class HomeComponent implements OnInit {
 
 
   addToCart(item : any) {
-    
+    var body = item;
+    body["quantity"]= item.quantity;
+    body["customerEmail"] = this.loginService.profileDetails.email;
+    this.productService.addToCart(body).subscribe((res)=>{
+      this.router.navigateByUrl('/cart');
+    })
   }
 
   toggleDropdown(): void {

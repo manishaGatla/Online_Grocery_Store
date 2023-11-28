@@ -26,6 +26,10 @@ export class ProductsService {
   }
 
   getProductsByCategories(category: any){
-    return this.httpClient.get(this.baseurl + '/api/Orders/getProductsByCategory?Category='+ category);
+    return this.httpClient.post(this.baseurl + '/api/Orders/getProductsByCategory',category);
+  }
+
+  addToCart(product: any){
+    return this.httpClient.post(this.baseurl + '/api/Orders/addToCart', product);
   }
 }

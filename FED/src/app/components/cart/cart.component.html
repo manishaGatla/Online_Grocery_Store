@@ -1,19 +1,24 @@
 <div class="cart-list" *ngIf ="!cartService.showPaymentSection">
     <div class="cart-item" *ngFor="let item of cartItems">
       <div class="cart-header" (click)="toggleItemDetails(item)">
-        <span class="item-title">{{ item.title }}</span>
-        <span class="item-price">{{ item.price | currency }}</span>
-        <span class="item-delivery-time">{{ item.deliveryTime }}</span>
+        <span class="item-title">{{ item.name }}</span>
+        <span class="item-price">{{ item.price_Per_Each  }}</span>
       </div>
-      <div class="item-details" *ngIf="item.showDetails">
-        <!-- Additional item details go here -->
+      <div class="item-details pd-15" *ngIf="item.showDetails">
+        
+        <span class="pd-15"><label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" name="quantity" min="1" step="1" class="quant-wd" [(ngModel)]="item.quantity"></span>
 
-        <div class="">
-          <button (click)="buyNow()">buy now</button>
-          <button (click)="remove(item)">Remove From Cart</button>
+        <div class="pd-15">
+         
+          <button class="sub-btn" (click)="remove(item)">Remove From Cart</button>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="mr-l-180 pd-15">
+    <button class="sub-btn"(click)="buyNow()">buy now</button>
   </div>
 
   

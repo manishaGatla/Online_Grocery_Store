@@ -15,7 +15,6 @@ export class LoginComponent {
   password: any;
   onLogin(){
     this.loginService.getDetailsByEmail(this.email).subscribe((res : any)=>{
-
       if(res){
         var data = res;
         this.loginService.profileDetails = res;

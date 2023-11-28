@@ -26,9 +26,14 @@
     <img [src]="item.product_URL" alt="{{ item.name }}" />
     <h2>{{ item.name }}</h2>
     <p>{{ item.category }}</p>
-    <div class="item-footer">
+    <div class="item-footer pd-b-13">
       <span class="item-price">{{ item.price_Per_Each }}</span>
-      <button (click)="addToCart(item)">Add to Cart</button>
+      
+    </div>
+    <div class="item-footer pd-b-13">
+      <span><label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" step="1" class="quant-wd" [(ngModel)]="item.quantity"></span>
+        <button (click)="addToCart(item)">Add to Cart</button>
     </div>
   </div>
 </section>

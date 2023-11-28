@@ -18,7 +18,7 @@ export class CartService {
   constructor(private httpClient: HttpClient) { }
 
   getCartItemsByEmail(email: any){
-    return this.httpClient.get(this.baseurl + '' + email);
+    return this.httpClient.get(this.baseurl + '/api/Orders/getCart?UserEmail=' + email);
   }
 
   removeItemFromCart(cartItemId : any){
