@@ -11,6 +11,7 @@
       <li *ngIf="loginService.isLoginSuccessful && loginService.isCustomer"><a routerLink="/cart" routerLinkActive="active">Cart</a></li>
       
       <li *ngIf="loginService.isLoginSuccessful"><a routerLink="/register" (click)="logOut()" routerLinkActive="active">LogOut</a></li>
+      
     </ul>
   </nav>
 </header>

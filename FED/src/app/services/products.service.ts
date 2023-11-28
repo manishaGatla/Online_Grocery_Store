@@ -20,4 +20,12 @@ export class ProductsService {
   getProducts(){
     return this.httpClient.get(this.baseurl + '/api/UserDetails/getAllProducts');
   }
+
+  getCategories(){
+    return this.httpClient.get(this.baseurl + '/api/Orders/getAllCategories');
+  }
+
+  getProductsByCategories(category: any){
+    return this.httpClient.get(this.baseurl + '/api/Orders/getProductsByCategory?Category='+ category);
+  }
 }

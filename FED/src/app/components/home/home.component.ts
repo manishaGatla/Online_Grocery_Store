@@ -12,82 +12,10 @@ export class HomeComponent implements OnInit {
   isAddNewProdBtnClicked: boolean = false;
   isEditProductBtnClicked: boolean = false;
   product: any;
+  selectedCategories: string[] = [];
   products: any ;
-  items = [
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    },
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    },
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    },
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    },
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    },
-    {
-      title: 'Item 1',
-      description: 'Description for Item 1',
-      price: 50,
-      imageUrl: 'assets/item1.jpg',
-    },
-    {
-      title: 'Item 2',
-      description: 'Description for Item 2',
-      price: 30.5,
-      imageUrl: 'assets/item2.jpg',
-    }
-    // Add more items here
-  ];
+  categories: any;
+  isDropdownOpen = false;
 
 
 
@@ -95,9 +23,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     if(this.loginService.isCustomer){
-      this.productService.getProducts().subscribe((res)=>{
-        this.products = res;
+      this.productService.getCategories().subscribe((resProd)=>{
+        this.categories = resProd;
+        this.productService.getProducts().subscribe((res)=>{
+          this.products = res;
+        })
       })
+     
     }
   }
 
@@ -130,6 +62,36 @@ export class HomeComponent implements OnInit {
  
   }
 
+  onCategoryChange(event: any): void {
+    var categoryId = event.target.value;
+    const index = this.selectedCategories.indexOf(categoryId);
+    if (index !== -1) {
+      this.selectedCategories.splice(index, 1);
+    } else {
+      this.selectedCategories.push(categoryId);
+    }
+
+    var selectedCategoriesName : any = [];
+    this.selectedCategories.forEach((item: any) => {
+     if(this.categories.findIndex((c: any)=> c._id == item) != -1){
+      selectedCategoriesName.push(this.categories.find((c: any)=> c._id == item).categoryName);
+     }
+    });
+    if(selectedCategoriesName && selectedCategoriesName.length > 0){
+    this.productService.getProductsByCategories(selectedCategoriesName.join(',')).subscribe(products => {
+      this.products = products;
+      this.isDropdownOpen = !this.isDropdownOpen;
+    });
+  }
+  else{
+    this.productService.getProducts().subscribe((res)=>{
+      this.products = res;
+      this.isDropdownOpen = !this.isDropdownOpen;
+    })
+  }
+
+  }
+
   editProduct(product: any){
     this.isEditProductBtnClicked = true;
     this.product = product;
@@ -152,6 +114,10 @@ export class HomeComponent implements OnInit {
 
 
   addToCart(item : any) {
-    // Implement your cart functionality here
+    
+  }
+
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
   }
 }

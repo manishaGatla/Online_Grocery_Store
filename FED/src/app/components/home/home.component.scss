@@ -4,12 +4,12 @@
   justify-content: space-between;
 }
 
-.item {
-  width: calc(33.33% - 46px); /* Adjust the width as needed with some space in between */
+.item {    width: calc(19.33% - 90px);
   margin: 10px;
   padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
+  border: 1px solid #d7cbcb;
+  background: rgb(235 227 227 / 85%);
+
 }
 
 img {
@@ -34,8 +34,79 @@ img {
 
 button {
   background-color: #007bff;
-  color: #fff;
+  color: #7e2e2e;
   border: none;
   padding: 5px 10px;
   cursor: pointer;
 }
+.sidebar {
+  width: 286px;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.custom-dropdown {
+  position: relative;
+}
+
+.dropdown {
+  display: inline-block;
+}
+
+.dropdown-toggle {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.3s ease;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}
+
+.css-d3uzzo {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  line-height: 1em;
+  flex-shrink: 0;
+  color: rgb(0, 129, 127);
+  opacity: 1;
+  transform: rotate(-180deg);
+  transition: transform 0.2s ease 0s;
+  transform-origin: center center;
+  font-size: 1.667rem;
+  vertical-align: middle;
+}
+.css-1lr08o5 {
+  width: 1em;
+  height: 1em;
+  display: inline-block;
+  line-height: 1em;
+  flex-shrink: 0;
+  color: rgb(0, 129, 127);
+  opacity: 1;
+  transition: transform 0.2s ease 0s;
+  transform-origin: center center;
+  font-size: 1.667rem;
+  vertical-align: middle;
+}
+
+
