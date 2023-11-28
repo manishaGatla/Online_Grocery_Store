@@ -17,11 +17,11 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   public getDetailsByEmail(emailId: any){
-    return this.http.get(this.baseurl + "/api/get?userEmail=" +emailId );
+    return this.http.get(this.baseurl + "/api/UserDetails/get?UserEmail=" +emailId );
   } 
 
   public updateDetailsByEmail(reqBody: any,emailId : any){
-    return this.http.post(this.baseurl + "/api/update?emailId=" +emailId ,reqBody );
+    return this.http.post(this.baseurl + "/api/Update/update?emailId=" +emailId ,reqBody );
   }
 
 }
