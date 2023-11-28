@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using OnlineGrocery.Models;
 using OnlineGrocery.services;
 
@@ -17,7 +18,7 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("newUser/deliveryExec")]
-        public async Task<IActionResult> AddDeliveryExecutive([FromBody]DeliveryExecutives  deliveryExcData)
+        public async Task<IActionResult> AddDeliveryExecutive([FromBody]BsonDocument  deliveryExcData)
         {
             try
             {
@@ -32,7 +33,7 @@ namespace OnlineGrocery.Controllers
         }
 
         [HttpPost("newUser/customer")]  
-        public async Task<IActionResult> AddCustomer([FromBody] Customer customerData)
+        public async Task<IActionResult> AddCustomer([FromBody] BsonDocument customerData)
         {
             try
             {
