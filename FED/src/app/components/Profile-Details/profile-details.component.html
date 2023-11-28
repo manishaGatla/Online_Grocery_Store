@@ -19,15 +19,15 @@
       <div *ngIf="!loginService.isCustomer">
         <div class="form-group">
           <label for="accountHolderName">Account Holder Name:</label>
-          <input type="accountHolderName" id="accountHolderName" name="accountHolderName" [(ngModel)]="loginService.profileDetails.accountHolderName" required>
+          <input type="text" id="accountHolderName" name="accountHolderName" [(ngModel)]="loginService.profileDetails.nameOnCard" required>
         </div>
         <div class="form-group">
           <label for="accountNumber">Account Number:</label>
-          <input type="accountNumber" id="accountNumber" name="accountNumber" [(ngModel)]="loginService.profileDetails.accountNumber" required>
+          <input type="number" id="accountNumber" name="accountNumber" [(ngModel)]="loginService.profileDetails.accountNumber" required>
         </div>
         <div class="form-group">
           <label for="routingNumber">Routing Number:</label>
-          <input type="routingNumber" id="routingNumber" name="routingNumber" [(ngModel)]="loginService.profileDetails.routingNumber" required>
+          <input type="number" id="routingNumber" name="routingNumber" [(ngModel)]="loginService.profileDetails.routingNumber" required>
         </div>
 
       </div>
