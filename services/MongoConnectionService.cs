@@ -103,21 +103,21 @@ namespace OnlineGrocery.services
             var deliveryExecutivesCollection = _database.GetCollection<DeliveryDetails>("DeliveryOrderDetails");
 
             // Specify the delivery executive's email
-            
+
 
             // Query to get delivered order details for a specific delivery executive
             //var filter = Builders<Order>.Filter.Eq("orderStatus", "Delivered");
             //var deliveredOrderDetails = ordersCollection.AsQueryable()
             //    .Join(deliveryOrderDetailsCollection.AsQueryable(),
-            //        order => order._id.$oid,
+            //        order => order._id,
             //        deliveryOrderDetail => deliveryOrderDetail.orderId,
             //        (order, deliveryOrderDetail) => new { order, deliveryOrderDetail })
             //    .Join(deliveryExecutivesCollection.AsQueryable(),
             //        combined => combined.deliveryOrderDetail.deliveryExecutiveId,
-            //        deliveryExecutive => deliveryExecutive._id.$oid,
+            //        deliveryExecutive => deliveryExecutive._id,
             //        (combined, deliveryExecutive) => new
             //        {
-            //            OrderId = combined.order._id.$oid,
+            //            OrderId = combined.order._id,
             //            DeliveryExecutiveName = deliveryExecutive.name,
             //            // Add more properties as needed
             //        })
