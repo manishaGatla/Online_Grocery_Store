@@ -43,8 +43,8 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
-        [HttpGet("getProductsByCategory")]
-        public List<ProductsModel> getAllProductsByCategories(List<String> Category)
+        [HttpPost("getProductsByCategory")]
+        public List<ProductsModel> getAllProductsByCategories([FromBody]List<String> Category)
         {
             try
             {
