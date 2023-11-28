@@ -89,8 +89,9 @@ namespace OnlineGrocery.services
                 details.Add("isDeliveryExec", CollectionName == "DeliveryExecutives" ? true : false);
                 return details.ToString();
             }
-            return ("No Data Found");
-            
+            var result = new BsonDocument("error", "No Data Found");
+            return result.ToString();
+
         }
         //public  BsonDocument GetAllOrders()
         //{

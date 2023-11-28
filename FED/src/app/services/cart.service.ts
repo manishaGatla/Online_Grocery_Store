@@ -23,7 +23,7 @@ export class CartService {
   }
 
   removeItemFromCart(cartItemId : any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '' , cartItemId);
+    return this.httpClient.post(this.baseurl + '/api/UserDetails/removeFromCart?id=' + cartItemId, null);
   }
 
   buyCartItems(cartItems: any, emailId: any): Observable<any>{

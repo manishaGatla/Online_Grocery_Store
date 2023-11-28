@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
         this.categories = resProd;
         this.productService.getProducts().subscribe((res)=>{
           this.products = res;
-          this.products.forEach((c: any)=> c.quantity = null);
+          this.products.forEach((c: any)=> c.quantity = 1);
         })
       })
      
@@ -84,14 +84,14 @@ export class HomeComponent implements OnInit {
     if(selectedCategoriesName && selectedCategoriesName.length > 0){
     this.productService.getProductsByCategories(selectedCategoriesName).subscribe(products => {
       this.products = products;
-      this.products.forEach((c: any)=> c.quantity = null);
+      this.products.forEach((c: any)=> c.quantity = 1);
       this.isDropdownOpen = !this.isDropdownOpen;
     });
   }
   else{
     this.productService.getProducts().subscribe((res)=>{
       this.products = res;
-      this.products.forEach((c: any)=> c.quantity = null);
+      this.products.forEach((c: any)=> c.quantity = 1);
       this.isDropdownOpen = !this.isDropdownOpen;
     })
   }
@@ -121,7 +121,7 @@ export class HomeComponent implements OnInit {
 
   addToCart(item : any) {
     var body = item;
-    body["quantity"]= item.quantity;
+    body["quantity"]=  item.quantity;
     body["customerEmail"] = this.loginService.profileDetails.email;
     this.productService.addToCart(body).subscribe((res)=>{
       this.router.navigateByUrl('/cart');
