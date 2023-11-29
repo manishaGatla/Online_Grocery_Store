@@ -9,7 +9,7 @@ export class PaymentsService {
   baseurl = "https://localhost:7274";
   constructor(private httpClient : HttpClient) { }
 
-  public placeOrder(reqBody: any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '' ,reqBody )
+  public placeOrder(reqBody: any, email: any): Observable<any>{
+    return this.httpClient.post(this.baseurl + '/api/Orders/placeOrder?useremail=' + email ,reqBody )
   }
 }

@@ -16,6 +16,9 @@ export class CartService {
     city: null
 
   } ;
+  cartItems: any =[];
+  deliveryOptions: any =  ["Store Pickup", "By Executive"];
+  selectedDeliveryOption: any;
   constructor(private httpClient: HttpClient) { }
 
   getCartItemsByEmail(email: any): Observable<any>{

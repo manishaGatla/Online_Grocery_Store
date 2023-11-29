@@ -14,6 +14,7 @@ export class CartComponent implements OnInit {
   constructor(public cartService: CartService, private loginService: LoginService, private notificationService: NotificationService){}
 
   ngOnInit(): void{
+    this.cartService.showPaymentSection = false;
     this.getCartDetails();
   }
 
@@ -25,6 +26,8 @@ export class CartComponent implements OnInit {
 
           item.total = item.quantity * Number(item.price_Per_Each.split('/')[0].split('$')[1]);
         })
+
+        this.cartService.cartItems = this.cartItems;
       }
     })
   }
@@ -56,6 +59,10 @@ export class CartComponent implements OnInit {
 
   updateTotal(item: any){
     item.total = item.quantity * Number(item.price_Per_Each.split('/')[0].split('$')[1]);
+  }
+
+  OnRadioBtnChange(event: any){
+    this.cartService.selectedDeliveryOption  = event.target.value == "StorePickup" ?   "Store Pickup":"By Executive" ;
   }
 
 

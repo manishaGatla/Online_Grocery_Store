@@ -52,6 +52,7 @@ namespace OnlineGrocery.services
             }
             return details;
         }
+        
 
         public async Task UpdateDocumentAsync(string collectionName, string filter, object document)
         {
@@ -82,6 +83,20 @@ namespace OnlineGrocery.services
 
             var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(ProductDetails._id));
             var collection = _database.GetCollection<BsonDocument>("Products");
+            await collection.UpdateOneAsync(filter, updateDetails);
+        }
+
+        public async Task UpdateOrderStatus(object orderId,string status,string type)
+        {
+            var updateDetails = Builders<BsonDocument>.Update
+                            .Set("orderStatus", "Delivered");
+            if (type == "Admins")
+            {
+                 updateDetails = Builders<BsonDocument>.Update
+                            .Set("orderStatus", "Out For Delivery");
+            }
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", orderId);
+            var collection = _database.GetCollection<BsonDocument>("Orders");
             await collection.UpdateOneAsync(filter, updateDetails);
         }
 
@@ -119,14 +134,186 @@ namespace OnlineGrocery.services
             return result.ToString();
 
         }
-        //public  BsonDocument GetAllOrders()
-        //{
-        //    BsonDocument details = null;
-        //    var collection = _database.GetCollection<BsonDocument>();
+        public List<GetOrdersModel> GetAllOrders()
+        {
+            var pipeline = new BsonDocument[]
+            {
+                new BsonDocument
+                {
+                    { "$lookup", new BsonDocument
+                        {
+                            { "from", "OrderDetails" },
+                            { "let", new BsonDocument("orderId", "$_id") },
+                            { "pipeline", new BsonArray
+                                {
+                                    new BsonDocument
+                                    {
+                                        { "$match", new BsonDocument
+                                            {
+                                                { "$expr", new BsonDocument
+                                                    {
+                                                        { "$eq", new BsonArray { "$orderDetails.orderId", "$$orderId" } }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { "as", "orderDetails" }
+                        }
+                    }
+                },
+                new BsonDocument
+                {
+                    { "$unwind", "$orderDetails" } // Unwind to flatten the array
+                },
+                new BsonDocument
+                {
+                    { "$lookup", new BsonDocument
+                        {
+                            { "from", "Products" },
+                            { "let", new BsonDocument("productId", "$orderDetails.productId") },
+                            { "pipeline", new BsonArray
+                                {
+                                    new BsonDocument
+                                    {
+                                        { "$match", new BsonDocument
+                                            {
+                                                { "$expr", new BsonDocument
+                                                    {
+                                                        { "$eq", new BsonArray { "$_id", "$$productId" } }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            { "as", "productDetails" }
+                        }
+                    }
+                },
+                new BsonDocument
+                {
+                    { "$project", new BsonDocument
+                        {
+                           
+                            { "orderDate", 1 },
+                            {"deliveryAddress",1 },
+                            {"deliveryType",1 },
+                            {"orderStatus",1 },
+                            {"quantity", "orderDetails.quantity"},
+                            { "pricePerQuantity","orderDetails.pricePerQuantity"},
+                            {"totalPrice","orderDetails.totalPrice" },
+                            { "productName","productDetails.productName" },
+                            { "product_URL","productDetails.product_URL"}
+                        }
+                    }
+                }
+            };
+            var collection = _database.GetCollection<GetOrdersModel>("Orders").Aggregate<GetOrdersModel>(pipeline).ToList();
 
 
-        //    return details; 
-        //}
+            return collection;
+        }
+
+
+
+        public List<GetOrdersModel> GetAllDeliveredOrders(string deliveryExecutiveId)
+        {
+            var pipeline = new BsonDocument[]
+       {
+            BsonDocument.Parse(@"
+            {
+                $match: {
+                    deliveryExecutiveId: '" + deliveryExecutiveId + @"'
+                }
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $lookup: {
+                    from: 'Orders',
+                    let: { orderId: '$orderId' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$_id', '$$orderId']
+                                }
+                            }
+                        }
+                    ],
+                    as: 'order'
+                }
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $unwind: '$order'
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $match: {
+                    'order.orderStatus': 'Delivered'
+                }
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $lookup: {
+                    from: 'OrderDetails',
+                    let: { orderId: '$orderId' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$orderId', '$$orderId']
+                                }
+                            }
+                        }
+                    ],
+                    as: 'orderDetails'
+                }
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $lookup: {
+                    from: 'Products',
+                    let: { productId: '$orderDetails.productId' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $eq: ['$_id', '$$productId']
+                                }
+                            }
+                        }
+                    ],
+                    as: 'product'
+                }
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $unwind: '$product'
+            }"),
+            BsonDocument.Parse(@"
+            {
+                $project: {
+                    deliveryAddress: '$order.deliveryAddress',
+                    deliveryType: '$order.deliveryType',
+                    orderStatus: '$order.orderStatus',
+                    productName: '$product.Name',
+                    product_URL: '$product.Product_URL',
+                    quantity: '$orderDetails.quantity',
+                    pricePerQuantity: '$orderDetails.pricePerQuantity',
+                    totalPrice: '$orderDetails.totalAmount'
+                }
+            }")
+       };
+            var collection = _database.GetCollection<GetOrdersModel>("DeliveryOrderDetails").Aggregate<GetOrdersModel>(pipeline).ToList();
+
+
+            return collection;
+        }
 
         public async Task RemoveFromCart(object id)
         {
@@ -159,6 +346,61 @@ namespace OnlineGrocery.services
             var filter = "{ email: " + "\"" + email + "\"" + "}";
             var collection = _database.GetCollection<BsonDocument>(type);
             await collection.UpdateManyAsync(filter, updateDetails1);
+        }
+
+        public async Task PlaceOrder(PlaceOrder details,string useremail)
+        {
+
+            var document = details.orderDetails.ToBsonDocument();
+            document.Remove("_id");
+
+            var collection = _database.GetCollection<BsonDocument>("Orders");
+            collection.InsertOne(document);
+            var insertId = document["_id"].ToString();
+
+            var filter = Builders<BsonDocument>.Filter.Empty;
+            var Execuitves = _database.GetCollection<BsonDocument>("DeliveryExecutives").Find(filter).FirstOrDefault();
+            var ExeId = Execuitves["_id"].ToString();
+            var deliveryOrderDetails = new BsonDocument
+                            {
+                                { "OrderId", insertId },
+                                { "deliveryExecutiveId", ExeId }
+                            };
+            _database.GetCollection<BsonDocument>("DeliveryOrderDetails").InsertOne(deliveryOrderDetails);
+            List<BsonDocument> orderDetailsObject = new List<BsonDocument>();
+
+            foreach(var orderDetails in details.cartDetails)
+            {
+                var _d = new OrderDetails()
+                {
+                    orderId = insertId,
+                    ProductId = orderDetails.ProductId,
+                    quantity = orderDetails.Quantity,
+                    pricePerQuantity = orderDetails.Price_Per_Each,
+                    totalAmount = details.paymentDetails.amount
+
+                };
+                var _dd = _d.ToBsonDocument();
+                _dd.Remove("_id");
+                orderDetailsObject.Add(_dd);      
+            }
+            _database.GetCollection<BsonDocument>("OrderDetails").InsertMany(orderDetailsObject);
+            var deleteFilter = Builders<BsonDocument>.Filter.Eq("CustomerEmail", useremail);
+            _database.GetCollection<BsonDocument>("Cart").DeleteMany(deleteFilter);
+
+            var paymentDocument = details.paymentDetails.ToBsonDocument();
+            paymentDocument.Remove("_id");
+            _database.GetCollection<BsonDocument>("Payments").InsertOne(paymentDocument);
+            
+            //var updateDetails1 = Builders<BsonDocument>.Update
+            //            .Set("name", updateDetails.name)
+            //            .Set("email", updateDetails.email)
+            //            .Set("password", updateDetails.password)
+            //            .Set("phoneNumber", updateDetails.phoneNumber);
+
+            //var filter = "{ email: " + "\"" + email + "\"" + "}";
+            //var collection = _database.GetCollection<BsonDocument>(type);
+            //await collection.UpdateManyAsync(filter, updateDetails1);
         }
         public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
         {

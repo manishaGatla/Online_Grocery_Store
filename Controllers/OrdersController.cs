@@ -15,20 +15,35 @@ namespace OnlineGrocery.Controllers
         {
             _mongoConnService = mongoConnService;
         }
-        //[HttpGet("get")]
-        //public String GetAllOders()
-        //{
-        //    try
-        //    {
+        [HttpGet("getAllOrders")]
+        public List<GetOrdersModel> GetAllOders()
+        {
+            try
+            {
 
-        //        var user = _mongoConnService.GetAllOrders();
-        //        return user.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ex.Message;
-        //    }
-        //}
+                var user = _mongoConnService.GetAllOrders();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        [HttpGet("getAllDeliveredOrders")]
+        public List<GetOrdersModel> getAllDeliveredOrders(string deliveryExecutiveId)
+        {
+            try
+            {
+
+                var user = _mongoConnService.GetAllDeliveredOrders(deliveryExecutiveId);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         [HttpGet("getAllCategories")]
         public List<Categories> getAllCategories()
         {
@@ -77,6 +92,30 @@ namespace OnlineGrocery.Controllers
             
             
         }
+
+       
+        [HttpPost("placeOrder")]
+        public async Task<String> placeOrder(PlaceOrder details,string useremail)
+        {
+            try
+            {
+
+                await _mongoConnService.PlaceOrder(details,useremail);
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+
+
+
+        }
+
+
+
         [HttpPost("addProduct")]
         public async Task<String> addProduct(ProductsModel productDetails)
         {
@@ -109,9 +148,7 @@ namespace OnlineGrocery.Controllers
             {
                 return null;
             }
-
-
-
         }
+
     }
 }

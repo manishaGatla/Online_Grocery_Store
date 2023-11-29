@@ -162,6 +162,9 @@ cancel(item: any){
 
   addToCart(item : any) {
     var body = item;
+    
+    body["productId"]= item._id
+    body["_id"]= null;
     body["quantity"]=  item.quantity;
     body["customerEmail"] = this.loginService.profileDetails.email;
     this.productService.addToCart(body).subscribe((res)=>{

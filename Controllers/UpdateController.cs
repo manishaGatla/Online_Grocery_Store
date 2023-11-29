@@ -88,5 +88,40 @@ namespace OnlineGrocery.Controllers
             }
 
         }
+
+        [HttpPost("updateOrderStatus")]
+        public async Task<String> updateOrderStatus([FromBody] UpdateOrderStatus updateDetails)
+        {
+            try
+            {
+                object OrderId = ObjectId.Parse(updateDetails.orderId);
+                await _mongoConnService.UpdateOrderStatus(OrderId, updateDetails.orderStatus, updateDetails.collection);
+                var result = new BsonDocument("success", "Updated");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+
+        }
+        //[HttpPost("DeleteProduct")]
+        //public async Task<String> deleteProduct(String Id)
+        //{
+        //    try
+        //    {
+
+        //        _mongoConnService.UpdateProductDetails(productDetails);
+        //        var result = new BsonDocument("success", "Updated");
+        //        return result.ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var result = new BsonDocument("error", ex.Message);
+        //        return result.ToString();
+        //    }
+
+        //}
     }
 }

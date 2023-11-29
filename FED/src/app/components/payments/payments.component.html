@@ -1,11 +1,15 @@
-<section class="payment-container">
-
+<div class="mr-l-180">
     <h2 class="c-w">Enter Payment Details</h2>
-    <div class="form-group">
+</div>
+
+
+
+<section class="payment-container">
+  <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Card Type:
-            <select value="selectedPaymentMethod" class=" mr-l-90 mr-r-15 select-style" >
-                <option value="">Select Card Type</option>
+            <select [(ngModel)]="selectedPaymentMethod" class=" mr-l-90 mr-r-15 select-style" placeholder="Select Card Type">
+
                 <option value="debit">Debit Card</option>
                 <option value="credit">Credit Card</option>
             </select>
@@ -17,7 +21,7 @@
             Card Number:
             <input class="mr-r-15  mr-l-61 select-style"
                 type="text"
-                value="accountNumber"
+                [(ngModel)]="accountNumber"
 
             />
         </label>
@@ -27,7 +31,7 @@
             Card Holder Name:
             <input class="mr-r-15  mr-l-15 select-style"
                 type="text"
-                value="cardHolderName"
+                [(ngModel)]="cardHolderName"
                
             />
         </label>
@@ -38,7 +42,7 @@
             Security Code:
             <input class="mr-r-15 mr-l-53 select-style"
                 type="text"
-                value="cvv"
+                [(ngModel)]="cvv"
             />
         </label>
     </div>
@@ -47,7 +51,7 @@
             Billing Address
             <input class="mr-r-15 mr-l-53 select-style"
                 type="text"
-                value="billingAddress"
+                [(ngModel)]="billingAddress"
             />
         </label>
     </div>
