@@ -25,6 +25,9 @@ export class PaymentsComponent implements OnInit {
   accountNumber: any;
   selectedPaymentMethod: any;
   billingAddress: any;
+  isCardNumberValid: boolean = true;
+   
+
 
 
   ngOnInit(): void {
@@ -41,6 +44,13 @@ export class PaymentsComponent implements OnInit {
     this.cardHolderName = null;
   }
 
+  cardNumberValidation(): boolean {
+    return this.accountNumber != null && this.accountNumber != ""? /^\d{16}$/.test(this.accountNumber) : true; 
+  }
+
+  securityCodeValidation(): boolean {
+    return this.cvv != null && this.cvv != ""? /^\d{3}$/.test(this.cvv) : true; 
+  }
   onSubmit(){
     var total = 0;
     this.cartService.cartItems.forEach((p: any)=>{
@@ -56,25 +66,72 @@ export class PaymentsComponent implements OnInit {
       },
       cartDetails: this.cartService.cartItems,
       paymentDetails:{
-        cardNumber         : this.accountNumber          ,
-        cvv                   : this.cvv                   ,
+        cardNumber         : this.accountNumber.toString()          ,
+        cvv                   : this.cvv.toString()                   ,
         paymentMethod : this.selectedPaymentMethod ,
         billingAddress        : this.billingAddress        ,
         cardHolderName        : this.cardHolderName        ,
         customerName: this.loginService.profileDetails.name,
         customerId: this.loginService.profileDetails._id,
         orderId: null,
-        amount: "$" + total
+        amount: "$" + total,
+        expiryDate: this.expireDate
       }
     }
+    
 
     this.paymentService.placeOrder(reqBody, this.loginService.profileDetails.email).subscribe((res) =>{
       this.router.navigateByUrl('/orders');
+      this.cartService.addressDetails= {
+        addressLine1: null,
+        addressLine2: null,
+        zip:null,
+        state: null,
+        city: null
+    
+      } ;
     })
+    this.cartService.selectedDeliveryOption = null;
   }
 
   onCancel(){
     this.cartService.showPaymentSection = false;
   }
+
+  validateCvv(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    const cvvPattern = /^[0-9]{3,4}$/;
+    this.isCvvValid = cvvPattern.test(inputValue);
+}
+
+validateExpiryDate(event: Event) {
+  if((event.target as HTMLInputElement).value != null){
+    const inputValue = (event.target as HTMLInputElement).value;
+    const datePattern = /^\d{2}\/\d{2}$/;
+    this.isDateValid = datePattern.test(inputValue);
+
+    if (this.isDateValid) {
+        const currentDate = new Date();
+        const inputDateParts = inputValue.split('/');
+        const inputMonth = Number(inputDateParts[0]);
+        const inputYear = Number(inputDateParts[1]);
+        const inputDate = new Date(2000 + inputYear, inputMonth - 1, 1);
+
+        this.isMonthValid = inputMonth >= 1 && inputMonth <= 12;
+        this.isFutureDate = inputDate > currentDate;
+    }
+  }
+  else{
+    this.isMonthValid = true;
+    this.isFutureDate  = true;
+  }
+}
+
+validateCardNumber(event: Event) {
+    const inputValue = (event.target as HTMLInputElement).value;
+    const cardNumberPattern = /^[0-9]{16}$/;
+    this.isCardNumberValid = cardNumberPattern.test(inputValue);
+}
+
 }
 

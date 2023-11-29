@@ -21,10 +21,13 @@
   </div>
 </div>
 
-<div *ngIf="!cartService.showPaymentSection" class="mr-l-180 pd-15">
+<div *ngIf="!cartService.showPaymentSection && cartItems.length > 0" class="mr-l-180 pd-15">
   <button class="sub-btn" (click)="buyNow()">buy now</button>
 </div>
 
+<div *ngIf="!cartService.showPaymentSection && cartItems.length == 0" class="mr-l-180 pd-15">
+  <span class="c-r">No Items in cart to display</span>
+</div>
 
 
 <div *ngIf="cartService.showPaymentSection">

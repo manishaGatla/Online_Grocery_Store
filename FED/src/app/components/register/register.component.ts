@@ -16,6 +16,8 @@ export class RegisterComponent implements OnInit{
   accountNumber: string = '';
   routingNumber: string = '';
   accountHolderName: string = '';
+  isPhoneNumberValid: boolean = true;
+  isAccountNumberValid: boolean = true;
   constructor(private registerService: RegisterServiceService, private notificationService: NotificationService) {}
   ngOnInit(): void {
     this.getorders
@@ -47,6 +49,22 @@ export class RegisterComponent implements OnInit{
    }
 
   }
+  validatePhoneNumber(event: Event) {
+    if((event.target as HTMLInputElement).value != null){
+    const inputValue = (event.target as HTMLInputElement).value;
+    const phoneNumberPattern = /^[0-9]{10}$/;
+    this.isPhoneNumberValid = phoneNumberPattern.test(inputValue);
+    }
+}
+
+AccountNumberValidation(accountNumber: string): boolean {
+  return accountNumber != null && accountNumber != ""? /^\d{12}$/.test(accountNumber) : true; 
+}
+
+RoutingNumberValidation(routingNumber: string): boolean {
+  
+  return routingNumber != null && routingNumber != ""? /^\d{9}$/.test(routingNumber) : true ; 
+}
 
   getBody(){
     if(this.role == 'deliveryExe'){
@@ -54,7 +72,7 @@ export class RegisterComponent implements OnInit{
         name: this.name,
         email : this.email,
         password: this.password,
-        phoneNumber: this.phoneNumber,
+        phoneNumber: this.phoneNumber.toString(),
         accountNumber : this.accountNumber,
         nameOnCard: this.accountHolderName,
         routingNumber : this.routingNumber
@@ -65,12 +83,17 @@ export class RegisterComponent implements OnInit{
         name: this.name,
         email : this.email,
         password: this.password,
-        phoneNumber: this.phoneNumber   
+        phoneNumber: this.phoneNumber.toString()   
       }
       
 
     }
 
+  }
+
+  isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return email != null  && email != "" ? emailRegex.test(email) : true;
   }
 
   OnRadioBtnChange(event: any){

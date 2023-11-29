@@ -3,7 +3,7 @@
     <h3>Categories</h3>
     <div class="custom-dropdown">
       <div class="dropdown">
-        <button class="dropdown-toggle c-r" placeholder="Select Categories to filter by toggling"
+        <button class="dropdown-toggle c-b" placeholder="Select Categories to filter by toggling"
           (click)="toggleDropdown()">
           Select Categories to filter by toggling
          
@@ -36,6 +36,9 @@
         <button (click)="addToCart(item)">Add to Cart</button>
     </div>
   </div>
+  <div *ngIf="products.length == 0 " class="mr-l-180 pd-15">
+    <span class="c-r">No Products with selected Category</span>
+  </div>
 </section>
 
 <section *ngIf="loginService.isAdmin">
@@ -46,7 +49,7 @@
           Add New Product
         </button>
         <span class="dropdown margins">
-          <button class="dropdown-toggle c-r" placeholder="Select Categories to filter by toggling"
+          <button class="dropdown-toggle c-b" placeholder="Select Categories to filter by toggling"
             (click)="toggleDropdown()">
             Select Categories to filter by toggling
            
