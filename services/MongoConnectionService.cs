@@ -134,87 +134,10 @@ namespace OnlineGrocery.services
             return result.ToString();
 
         }
-        public List<GetOrdersModel> GetAllOrders()
+        public List<ReturnedOrder> GetAllOrders()
         {
-            var pipeline = new BsonDocument[]
-            {
-                new BsonDocument
-                {
-                    { "$lookup", new BsonDocument
-                        {
-                            { "from", "OrderDetails" },
-                            { "let", new BsonDocument("orderId", "$_id") },
-                            { "pipeline", new BsonArray
-                                {
-                                    new BsonDocument
-                                    {
-                                        { "$match", new BsonDocument
-                                            {
-                                                { "$expr", new BsonDocument
-                                                    {
-                                                        { "$eq", new BsonArray { "$orderDetails.orderId", "$$orderId" } }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            { "as", "orderDetails" }
-                        }
-                    }
-                },
-                new BsonDocument
-                {
-                    { "$unwind", "$orderDetails" } // Unwind to flatten the array
-                },
-                new BsonDocument
-                {
-                    { "$lookup", new BsonDocument
-                        {
-                            { "from", "Products" },
-                            { "let", new BsonDocument("productId", "$orderDetails.productId") },
-                            { "pipeline", new BsonArray
-                                {
-                                    new BsonDocument
-                                    {
-                                        { "$match", new BsonDocument
-                                            {
-                                                { "$expr", new BsonDocument
-                                                    {
-                                                        { "$eq", new BsonArray { "$_id", "$$productId" } }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            { "as", "productDetails" }
-                        }
-                    }
-                },
-                new BsonDocument
-                {
-                    { "$project", new BsonDocument
-                        {
-                           
-                            { "orderDate", 1 },
-                            {"deliveryAddress",1 },
-                            {"deliveryType",1 },
-                            {"orderStatus",1 },
-                            {"quantity", "orderDetails.quantity"},
-                            { "pricePerQuantity","orderDetails.pricePerQuantity"},
-                            {"totalPrice","orderDetails.totalPrice" },
-                            { "productName","productDetails.productName" },
-                            { "product_URL","productDetails.product_URL"}
-                        }
-                    }
-                }
-            };
-            var collection = _database.GetCollection<GetOrdersModel>("Orders").Aggregate<GetOrdersModel>(pipeline).ToList();
-
-
+            var filter = Builders<ReturnedOrder>.Filter.Empty;
+            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).ToList();
             return collection;
         }
 

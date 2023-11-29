@@ -16,7 +16,7 @@ namespace OnlineGrocery.Controllers
             _mongoConnService = mongoConnService;
         }
         [HttpGet("getAllOrders")]
-        public List<GetOrdersModel> GetAllOders()
+        public List<ReturnedOrder> GetAllOders()
         {
             try
             {
