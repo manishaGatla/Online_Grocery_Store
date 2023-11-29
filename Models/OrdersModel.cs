@@ -5,7 +5,7 @@
         public object? Id { get; set; }
         public string? customerId { get; set; }
         public string? orderDate { get; set; } = DateTime.Now.ToString();
-        public string? deliveryAdderss {get;set; }
+        public string? deliveryAddress {get;set; }
         public string deliveryType { get; set; } 
         public string orderStatus { get; set; }
 
@@ -14,7 +14,7 @@
     {
         
         public string orderDate { get; set; }
-        public string? deliveryAdderss { get; set; }
+        public string? deliveryAddress { get; set; }
         public string deliveryType { get; set; }
         public string orderStatus { get; set; }
         public string productName { get; set; }
