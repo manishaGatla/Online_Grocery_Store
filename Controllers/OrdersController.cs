@@ -30,13 +30,13 @@ namespace OnlineGrocery.Controllers
             }
         }
         [HttpGet("getAllCustomerOrders")]
-        public string getAllCustomerOrders(string customerId)
+        public ReturnedOrder getAllCustomerOrders(string customerId)
         {
             try
             {
                 
                 var user = _mongoConnService.GetAllCustomerOrders(customerId);
-                return user.ToString();
+                return user;
             }
             catch (Exception ex)
             {

@@ -218,10 +218,10 @@ namespace OnlineGrocery.services
             return collection;
         }
 
-        public BsonDocument GetAllCustomerOrders(string customerid)
+        public ReturnedOrder GetAllCustomerOrders(string customerid)
         {
-            var filter = Builders<BsonDocument>.Filter.Eq("orderDetails.customerId", customerid);
-            var collection = _database.GetCollection<BsonDocument>("FinalOrderDetails").Find(filter).FirstOrDefault();
+            var filter = Builders<ReturnedOrder>.Filter.Eq("orderDetails.customerId", customerid);
+            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).FirstOrDefault();
             return collection;
         }
 

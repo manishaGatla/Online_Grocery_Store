@@ -50,6 +50,14 @@
 
         public PaymentsModel paymentDetails { get; set; }
     }
-   
+    public class ReturnedOrder
+    {
+        public object? _id { get; set; }
+        public OrdersModel orderDetails { get; set; }
+        public List<CartModel> cartDetails { get; set; }
+
+        public PaymentsModel paymentDetails { get; set; }
+    }
+
 
 }
