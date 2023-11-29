@@ -30,7 +30,7 @@ namespace OnlineGrocery.Controllers
             }
         }
         [HttpGet("getAllCustomerOrders")]
-        public ReturnedOrder getAllCustomerOrders(string customerId)
+        public List<ReturnedOrder> getAllCustomerOrders(string customerId)
         {
             try
             {

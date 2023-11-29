@@ -141,10 +141,10 @@ namespace OnlineGrocery.services
             return collection;
         }
 
-        public ReturnedOrder GetAllCustomerOrders(string customerid)
+        public List<ReturnedOrder> GetAllCustomerOrders(string customerid)
         {
             var filter = Builders<ReturnedOrder>.Filter.Eq("orderDetails.customerId", customerid);
-            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).FirstOrDefault();
+            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).ToList();
             return collection;
         }
 
