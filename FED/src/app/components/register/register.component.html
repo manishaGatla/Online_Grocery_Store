@@ -19,6 +19,11 @@
       <input class="wd-25"type="password" id="password"  [(ngModel)]="password" placeholder="Enter your password" required>
     </div>
     <div class="form-group">
+      <label for="password" class="mr-b-10">Confirm Password</label>
+      <input class="wd-25"type="password" id="password"  [(ngModel)]="confirmPassword" (change)="checkPasswordValidation()"placeholder="Enter your password" required>
+      <span  *ngIf="!isPasswordNotValid" class="error-message"> Password Mismatch</span> 
+    </div>
+    <div class="form-group">
       <label for="role" class="mr-b-10">Role</label>
       <div class="role-radio">
         <input type="radio" id="deliveryExe" name="role" value="deliveryExe" (change) ="OnRadioBtnChange($event)">

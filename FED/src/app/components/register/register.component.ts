@@ -10,7 +10,9 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class RegisterComponent implements OnInit{
   name: string = '';
   phoneNumber: string = '';
+  isPasswordNotValid: boolean = false;
   email: string = '';
+  confirmPassword: any = null;
   password: string = '';
   role: string = 'customer'; // Default role
   accountNumber: string = '';
@@ -20,12 +22,9 @@ export class RegisterComponent implements OnInit{
   isAccountNumberValid: boolean = true;
   constructor(private registerService: RegisterServiceService, private notificationService: NotificationService) {}
   ngOnInit(): void {
-    this.getorders
+    //this.getorders
   }
 
-  getorders(){
-
-  }
 
   onSubmit() {
    var reqbody = this.getBody();
@@ -55,6 +54,10 @@ export class RegisterComponent implements OnInit{
     const phoneNumberPattern = /^[0-9]{10}$/;
     this.isPhoneNumberValid = phoneNumberPattern.test(inputValue);
     }
+}
+
+checkPasswordValidation(){
+ this.isPasswordNotValid = this.password != this.confirmPassword ? false : true;
 }
 
 AccountNumberValidation(accountNumber: string): boolean {
