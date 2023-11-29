@@ -57,6 +57,8 @@
         public List<CartModel> cartDetails { get; set; }
 
         public PaymentsModel paymentDetails { get; set; }
+
+        public string orderId { get; set; }
     }
 
 
