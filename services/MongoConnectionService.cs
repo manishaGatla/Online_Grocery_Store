@@ -218,7 +218,50 @@ namespace OnlineGrocery.services
             return collection;
         }
 
+        public List<BsonDocument> GetAllCustomerOrders(object customerid)
+        {
+            var ordersCollection = _database.GetCollection<BsonDocument>("Orders");
+            var pipeline = PipelineDefinition<BsonDocument, BsonDocument>.Create(
+           new[]
+           {
+                BsonDocument.Parse("{ $match: { customerId:  \" 6566d517945a14c4c316361f\" } }"),
+                BsonDocument.Parse(@"
+                    {
+                        $lookup: {
+                            from: 'OrderDetails',
+                            let: { orderId: { $toString: '$_id' } },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: { $eq: ['$$orderId', '$orderId'] }
+                                    }
+                                }
+                            ],
+                            as: 'orderDetails'
+                        }
+                    }"),
+                BsonDocument.Parse(@"
+                    {
+                        $lookup: {
+                            from: 'DeliveryOrderDetails',
+                            let: { orderId: { $toString: '$_id' } },
+                            pipeline: [
+                                {
+                                    $match: {
+                                        $expr: { $eq: ['$$orderId', '$OrderId'] }
+                                    }
+                                }
+                            ],
+                            as: 'deliveryOrderDetails'
+                        }
+                    }"),
+                BsonDocument.Parse("{ $project: { customerId: 1, orderDate: 1, deliveryAddress: 1, orderStatus: 1, deliveryType: 1, orderDetails: 1, deliveryOrderDetails: 1 } }")
+           });
 
+            // Execute the aggregation pipeline
+            var result = ordersCollection.Aggregate(pipeline).ToList();
+            return result;
+        }
 
         public List<GetOrdersModel> GetAllDeliveredOrders(string deliveryExecutiveId)
         {
@@ -387,6 +430,8 @@ namespace OnlineGrocery.services
             }
             _database.GetCollection<BsonDocument>("OrderDetails").InsertMany(orderDetailsObject);
             var deleteFilter = Builders<BsonDocument>.Filter.Eq("CustomerEmail", useremail);
+
+            _database.GetCollection<BsonDocument>("FinalOrderDetails").InsertOne(details.ToBsonDocument());
             _database.GetCollection<BsonDocument>("Cart").DeleteMany(deleteFilter);
 
             var paymentDocument = details.paymentDetails.ToBsonDocument();
