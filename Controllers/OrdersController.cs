@@ -34,8 +34,8 @@ namespace OnlineGrocery.Controllers
         {
             try
             {
-                object id = ObjectId.Parse(customerId);
-                var user = _mongoConnService.GetAllCustomerOrders(id);
+                
+                var user = _mongoConnService.GetAllCustomerOrders(customerId);
                 return user.ToString();
             }
             catch (Exception ex)
@@ -43,6 +43,7 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
+
 
             [HttpGet("getAllDeliveredOrders")]
         public List<GetOrdersModel> getAllDeliveredOrders(string deliveryExecutiveId)

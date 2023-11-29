@@ -218,49 +218,11 @@ namespace OnlineGrocery.services
             return collection;
         }
 
-        public List<BsonDocument> GetAllCustomerOrders(object customerid)
+        public BsonDocument GetAllCustomerOrders(string customerid)
         {
-            var ordersCollection = _database.GetCollection<BsonDocument>("Orders");
-            var pipeline = PipelineDefinition<BsonDocument, BsonDocument>.Create(
-           new[]
-           {
-                BsonDocument.Parse("{ $match: { customerId:  \" 6566d517945a14c4c316361f\" } }"),
-                BsonDocument.Parse(@"
-                    {
-                        $lookup: {
-                            from: 'OrderDetails',
-                            let: { orderId: { $toString: '$_id' } },
-                            pipeline: [
-                                {
-                                    $match: {
-                                        $expr: { $eq: ['$$orderId', '$orderId'] }
-                                    }
-                                }
-                            ],
-                            as: 'orderDetails'
-                        }
-                    }"),
-                BsonDocument.Parse(@"
-                    {
-                        $lookup: {
-                            from: 'DeliveryOrderDetails',
-                            let: { orderId: { $toString: '$_id' } },
-                            pipeline: [
-                                {
-                                    $match: {
-                                        $expr: { $eq: ['$$orderId', '$OrderId'] }
-                                    }
-                                }
-                            ],
-                            as: 'deliveryOrderDetails'
-                        }
-                    }"),
-                BsonDocument.Parse("{ $project: { customerId: 1, orderDate: 1, deliveryAddress: 1, orderStatus: 1, deliveryType: 1, orderDetails: 1, deliveryOrderDetails: 1 } }")
-           });
-
-            // Execute the aggregation pipeline
-            var result = ordersCollection.Aggregate(pipeline).ToList();
-            return result;
+            var filter = Builders<BsonDocument>.Filter.Eq("orderDetails.customerId", customerid);
+            var collection = _database.GetCollection<BsonDocument>("FinalOrderDetails").Find(filter).FirstOrDefault();
+            return collection;
         }
 
         public List<GetOrdersModel> GetAllDeliveredOrders(string deliveryExecutiveId)
@@ -430,23 +392,17 @@ namespace OnlineGrocery.services
             }
             _database.GetCollection<BsonDocument>("OrderDetails").InsertMany(orderDetailsObject);
             var deleteFilter = Builders<BsonDocument>.Filter.Eq("CustomerEmail", useremail);
-
-            _database.GetCollection<BsonDocument>("FinalOrderDetails").InsertOne(details.ToBsonDocument());
+            details.paymentDetails.orderId = insertId;
+            var details1 = details.ToBsonDocument();
+            details1.Add("orderId", insertId);
+            _database.GetCollection<BsonDocument>("FinalOrderDetails").InsertOne(details1);
             _database.GetCollection<BsonDocument>("Cart").DeleteMany(deleteFilter);
 
             var paymentDocument = details.paymentDetails.ToBsonDocument();
             paymentDocument.Remove("_id");
             _database.GetCollection<BsonDocument>("Payments").InsertOne(paymentDocument);
             
-            //var updateDetails1 = Builders<BsonDocument>.Update
-            //            .Set("name", updateDetails.name)
-            //            .Set("email", updateDetails.email)
-            //            .Set("password", updateDetails.password)
-            //            .Set("phoneNumber", updateDetails.phoneNumber);
-
-            //var filter = "{ email: " + "\"" + email + "\"" + "}";
-            //var collection = _database.GetCollection<BsonDocument>(type);
-            //await collection.UpdateManyAsync(filter, updateDetails1);
+           
         }
         public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
         {
