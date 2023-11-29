@@ -10,6 +10,7 @@
         public string Category { get; set; }
         public string Product_URL { get; set; }
         public string CustomerEmail { get; set; }
+        public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
     public class GetCartModel
@@ -22,6 +23,7 @@
         public string Category { get; set; }
         public string Product_URL { get; set; }
         public string CustomerEmail { get; set; }
+        public string ProductId { get; set; }
         public int Quantity { get; set; }
     }
 
