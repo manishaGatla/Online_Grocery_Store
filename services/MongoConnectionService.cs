@@ -86,18 +86,22 @@ namespace OnlineGrocery.services
             await collection.UpdateOneAsync(filter, updateDetails);
         }
 
-        public async Task UpdateOrderStatus(object orderId,string status,string type)
+        public async Task UpdateOrderStatus(string orderId,string status)
         {
             var updateDetails = Builders<BsonDocument>.Update
-                            .Set("orderStatus", "Delivered");
-            if (type == "Admins")
-            {
-                 updateDetails = Builders<BsonDocument>.Update
-                            .Set("orderStatus", "Out For Delivery");
-            }
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", orderId);
+                            .Set("orderStatus", status);
+            var finalUpdateDetails = Builders<BsonDocument>.Update
+                            .Set("orderDetails.orderStatus",status);
+            
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(orderId));
             var collection = _database.GetCollection<BsonDocument>("Orders");
             await collection.UpdateOneAsync(filter, updateDetails);
+
+
+            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId);
+            var updatefinaltable = _database.GetCollection<BsonDocument>("FinalOrderDetails");
+            await updatefinaltable.UpdateOneAsync(finalfilter, finalUpdateDetails);
+
         }
 
         public async Task GetDocumentsAsync(string collectionName, string filter)
@@ -134,91 +138,19 @@ namespace OnlineGrocery.services
             return result.ToString();
 
         }
-        public List<GetOrdersModel> GetAllOrders()
+        public List<ReturnedOrder> GetAllOrders()
         {
-            var pipeline = new BsonDocument[]
-            {
-                new BsonDocument
-                {
-                    { "$lookup", new BsonDocument
-                        {
-                            { "from", "OrderDetails" },
-                            { "let", new BsonDocument("orderId", "$_id") },
-                            { "pipeline", new BsonArray
-                                {
-                                    new BsonDocument
-                                    {
-                                        { "$match", new BsonDocument
-                                            {
-                                                { "$expr", new BsonDocument
-                                                    {
-                                                        { "$eq", new BsonArray { "$orderDetails.orderId", "$$orderId" } }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            { "as", "orderDetails" }
-                        }
-                    }
-                },
-                new BsonDocument
-                {
-                    { "$unwind", "$orderDetails" } // Unwind to flatten the array
-                },
-                new BsonDocument
-                {
-                    { "$lookup", new BsonDocument
-                        {
-                            { "from", "Products" },
-                            { "let", new BsonDocument("productId", "$orderDetails.productId") },
-                            { "pipeline", new BsonArray
-                                {
-                                    new BsonDocument
-                                    {
-                                        { "$match", new BsonDocument
-                                            {
-                                                { "$expr", new BsonDocument
-                                                    {
-                                                        { "$eq", new BsonArray { "$_id", "$$productId" } }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            { "as", "productDetails" }
-                        }
-                    }
-                },
-                new BsonDocument
-                {
-                    { "$project", new BsonDocument
-                        {
-                           
-                            { "orderDate", 1 },
-                            {"deliveryAddress",1 },
-                            {"deliveryType",1 },
-                            {"orderStatus",1 },
-                            {"quantity", "orderDetails.quantity"},
-                            { "pricePerQuantity","orderDetails.pricePerQuantity"},
-                            {"totalPrice","orderDetails.totalPrice" },
-                            { "productName","productDetails.productName" },
-                            { "product_URL","productDetails.product_URL"}
-                        }
-                    }
-                }
-            };
-            var collection = _database.GetCollection<GetOrdersModel>("Orders").Aggregate<GetOrdersModel>(pipeline).ToList();
-
-
+            var filter = Builders<ReturnedOrder>.Filter.Empty;
+            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).ToList();
             return collection;
         }
 
-
+        public List<ReturnedOrder> GetAllCustomerOrders(string customerid)
+        {
+            var filter = Builders<ReturnedOrder>.Filter.Eq("orderDetails.customerId", customerid);
+            var collection = _database.GetCollection<ReturnedOrder>("FinalOrderDetails").Find(filter).ToList();
+            return collection;
+        }
 
         public List<GetOrdersModel> GetAllDeliveredOrders(string deliveryExecutiveId)
         {
@@ -375,6 +307,7 @@ namespace OnlineGrocery.services
                 {
                     orderId = insertId,
                     ProductId = orderDetails.ProductId,
+                    productName = orderDetails.Name,
                     quantity = orderDetails.Quantity,
                     pricePerQuantity = orderDetails.Price_Per_Each,
                     totalAmount = details.paymentDetails.amount
@@ -386,21 +319,17 @@ namespace OnlineGrocery.services
             }
             _database.GetCollection<BsonDocument>("OrderDetails").InsertMany(orderDetailsObject);
             var deleteFilter = Builders<BsonDocument>.Filter.Eq("CustomerEmail", useremail);
+            details.paymentDetails.orderId = insertId;
+            var details1 = details.ToBsonDocument();
+            details1.Add("orderId", insertId);
+            _database.GetCollection<BsonDocument>("FinalOrderDetails").InsertOne(details1);
             _database.GetCollection<BsonDocument>("Cart").DeleteMany(deleteFilter);
 
             var paymentDocument = details.paymentDetails.ToBsonDocument();
             paymentDocument.Remove("_id");
             _database.GetCollection<BsonDocument>("Payments").InsertOne(paymentDocument);
             
-            //var updateDetails1 = Builders<BsonDocument>.Update
-            //            .Set("name", updateDetails.name)
-            //            .Set("email", updateDetails.email)
-            //            .Set("password", updateDetails.password)
-            //            .Set("phoneNumber", updateDetails.phoneNumber);
-
-            //var filter = "{ email: " + "\"" + email + "\"" + "}";
-            //var collection = _database.GetCollection<BsonDocument>(type);
-            //await collection.UpdateManyAsync(filter, updateDetails1);
+           
         }
         public async Task UpdateDetails(string email, DeliveryExecutives updateDetails, string type)
         {

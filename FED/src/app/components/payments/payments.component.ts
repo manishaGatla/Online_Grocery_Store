@@ -70,7 +70,16 @@ export class PaymentsComponent implements OnInit {
 
     this.paymentService.placeOrder(reqBody, this.loginService.profileDetails.email).subscribe((res) =>{
       this.router.navigateByUrl('/orders');
+      this.cartService.addressDetails= {
+        addressLine1: null,
+        addressLine2: null,
+        zip:null,
+        state: null,
+        city: null
+    
+      } ;
     })
+    this.cartService.selectedDeliveryOption = null;
   }
 
   onCancel(){

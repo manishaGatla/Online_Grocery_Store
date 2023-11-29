@@ -16,7 +16,7 @@ namespace OnlineGrocery.Controllers
             _mongoConnService = mongoConnService;
         }
         [HttpGet("getAllOrders")]
-        public List<GetOrdersModel> GetAllOders()
+        public List<ReturnedOrder> GetAllOders()
         {
             try
             {
@@ -29,8 +29,23 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
+        [HttpGet("getAllCustomerOrders")]
+        public List<ReturnedOrder> getAllCustomerOrders(string customerId)
+        {
+            try
+            {
+                
+                var user = _mongoConnService.GetAllCustomerOrders(customerId);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
-        [HttpGet("getAllDeliveredOrders")]
+
+            [HttpGet("getAllDeliveredOrders")]
         public List<GetOrdersModel> getAllDeliveredOrders(string deliveryExecutiveId)
         {
             try

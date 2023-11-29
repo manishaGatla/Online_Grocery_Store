@@ -5,6 +5,7 @@
         public object? Id { get; set; }
         public string? customerId { get; set; }
         public string? orderDate { get; set; } = DateTime.Now.ToString();
+        
         public string? deliveryAddress {get;set; }
         public string deliveryType { get; set; } 
         public string orderStatus { get; set; }
@@ -26,7 +27,6 @@
     }
     public class UpdateOrderStatus
     {
-        public string collection { get; set; }
         public string orderId { get; set; }
         public string orderStatus { get; set; }
     }
@@ -35,6 +35,7 @@
     {
         public object? _id { get; set; }
         public string orderId { get; set; }
+        public string productName { get; set; }
         public string ProductId { get; set; }
         public int quantity { get; set; }
         public string pricePerQuantity { get; set; }
@@ -48,4 +49,16 @@
 
         public PaymentsModel paymentDetails { get; set; }
     }
+    public class ReturnedOrder
+    {
+        public object? _id { get; set; }
+        public OrdersModel orderDetails { get; set; }
+        public List<CartModel> cartDetails { get; set; }
+
+        public PaymentsModel paymentDetails { get; set; }
+
+        public string orderId { get; set; }
+    }
+
+
 }
