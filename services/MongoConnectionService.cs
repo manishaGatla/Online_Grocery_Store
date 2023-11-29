@@ -375,6 +375,7 @@ namespace OnlineGrocery.services
                 {
                     orderId = insertId,
                     ProductId = orderDetails.ProductId,
+                    productName = orderDetails.Name,
                     quantity = orderDetails.Quantity,
                     pricePerQuantity = orderDetails.Price_Per_Each,
                     totalAmount = details.paymentDetails.amount
