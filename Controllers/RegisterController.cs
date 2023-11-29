@@ -69,23 +69,30 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
-        //[HttpPost(")]
-        //public async Task<String> AddCustomer([FromBody] InsertCustomer customerData)
-        //{
-        //    try
-        //    {
-        //        // Example: Inserting a document into MongoDB
+        [HttpPost("approveExecutive")]
+        public async Task<String> approveDeliveryExecutive(string executiveEmail, int approve)
+        {
+            try
+            {
+                // Example: Inserting a document into MongoDB
 
-        //        await _mongoConnService.InsertDocumentAsync("Customers", customerData.ToBsonDocument());
-        //        var result = new BsonDocument("success", "Added");
-        //        return result.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        var result = new BsonDocument("error", ex.Message);
-        //        return result.ToString();
-        //    }
-        //}
+                await _mongoConnService.ApproveDeliveryExecutive(executiveEmail,approve);
+                string status = null;
+                if (approve == 0)
+                    status = "Not Approved";
+                else if (approve == 1)
+                    status = "Approved";
+                else
+                    status = "Rejected";
+                var result = new BsonDocument("success", status);
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+        }
 
 
     }

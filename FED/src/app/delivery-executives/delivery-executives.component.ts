@@ -20,13 +20,16 @@ export class DeliveryExecutivesComponent implements OnInit {
   }
 
   updateDetails(exec: any, status: any){
-    
+    this.registerService.updateExecutives(exec.email,status).subscribe((res)=>{
+      this.getAllExecutives();
+    })
   }
 
   getAllExecutives(){
     this.registerService.getExecutives().subscribe((res)=>{
       if(res){
         this.deliveryExecutives = res;
+        
       }
     })
   }

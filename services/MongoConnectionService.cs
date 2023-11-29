@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using OnlineGrocery.Models;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -33,6 +34,13 @@ namespace OnlineGrocery.services
             document.Remove("_id");
             var collection = _database.GetCollection<BsonDocument>("DeliveryExecutive");
             collection.InsertOne(document);
+        }
+        public async Task ApproveDeliveryExecutive(string email, int approve)
+        {
+            var updateDetails = Builders<BsonDocument>.Update.Set("isApprovedByAdmin", approve);
+            var filter = "{ email: " + "\"" + email + "\"" + "}";
+            var collection = _database.GetCollection<BsonDocument>("DeliveryExecutive");
+            collection.UpdateOne(filter, updateDetails);
         }
         public async Task AddToCart( BsonDocument document)
         {

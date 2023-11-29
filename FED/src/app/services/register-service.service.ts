@@ -21,7 +21,7 @@ export class RegisterServiceService {
   } 
 
   public updateExecutives(executiveEmail: any , status: any): Observable<any>{
-    return this.http.post(this.baseurl + "/api/Register/getAllExecutives" + executiveEmail + status, null);
+    return this.http.post(this.baseurl + "/api/Register/approveExecutive?executiveEmail=" + executiveEmail + "&approve="+ status, null);
   } 
 }
 

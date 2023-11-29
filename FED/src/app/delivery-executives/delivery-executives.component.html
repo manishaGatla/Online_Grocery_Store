@@ -14,7 +14,7 @@
             <th>
                 
             </th>
-            </tr>
+            </tr>w
         </thead>
         <tbody>
             <tr *ngFor="let executive of deliveryExecutives">
@@ -22,8 +22,8 @@
                 <td> {{executive.phoneNumber}}</td>
                 <td> {{executive.email}}</td>
                 <td><div>
-                    <button class="mr-l-10 sub-btn" (click)="updateDetails(executive, '1')">Approve</button>
-                    <button class="mr-l-10 sub-btn" (click)="updateDetails(executive,'2')">Reject</button>
+                    <button class="mr-l-10 sub-btn" *ngIf="executive.isApprovedByAdmin == '0'"(click)="updateDetails(executive, '1')">Approve</button>
+                    <button class="mr-l-10 sub-btn" *ngIf="executive.isApprovedByAdmin == '0'" (click)="updateDetails(executive,'2')">Reject</button>
                 </div></td>
             </tr>
         </tbody>
