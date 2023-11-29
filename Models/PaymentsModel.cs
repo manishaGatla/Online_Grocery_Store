@@ -12,6 +12,7 @@
         public string CustomerName { get; set;}
         public string CardNumber { get;set; }
         public int Cvv { get; set; }
+        public string ExpiryDate { get; set; }
 
     }
 }

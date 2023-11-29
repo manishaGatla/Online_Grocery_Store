@@ -15,7 +15,7 @@
     }
     public class InsertCustomer
     {
-       
+        public string? _id { get; set; }
         public string name { get; set; }
 
         public string email { get; set; }
@@ -43,10 +43,12 @@
         public string accountNumber { get; set; }
 
         public string routingNumber { get; set; }
+        public int isApprovedByAdmin { get; set; }
 
     }
     public class InsertDeliveryExecutives
     {
+        public string? _id { get; set; }
         public string name { get; set; }
 
         public string email { get; set; }
@@ -60,6 +62,8 @@
         public string accountNumber { get; set; }
 
         public string routingNumber { get; set; }
+
+        public int isApprovedByAdmin { get; set; } = 0;
 
     }
 }

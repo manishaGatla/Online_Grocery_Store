@@ -95,7 +95,7 @@ namespace OnlineGrocery.Controllers
             try
             {
                 object OrderId = ObjectId.Parse(updateDetails.orderId);
-                await _mongoConnService.UpdateOrderStatus(OrderId, updateDetails.orderStatus, updateDetails.collection);
+                await _mongoConnService.UpdateOrderStatus(OrderId, updateDetails.orderStatus);
                 var result = new BsonDocument("success", "Updated");
                 return result.ToString();
             }

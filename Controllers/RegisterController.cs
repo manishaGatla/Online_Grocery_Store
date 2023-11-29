@@ -52,6 +52,41 @@ namespace OnlineGrocery.Controllers
                 return result.ToString();
             }
         }
+        [HttpGet("getAllExecutives")]
+        public List<DeliveryExecutives> getAllExecutives()
+        {
+            try
+            {
+                // Example: Inserting a document into MongoDB
+
+                var details =  _mongoConnService.GetAllExecutives();
+               
+                return details;
+            }
+            catch (Exception ex)
+            {
+                
+                return null;
+            }
+        }
+        //[HttpPost(")]
+        //public async Task<String> AddCustomer([FromBody] InsertCustomer customerData)
+        //{
+        //    try
+        //    {
+        //        // Example: Inserting a document into MongoDB
+
+        //        await _mongoConnService.InsertDocumentAsync("Customers", customerData.ToBsonDocument());
+        //        var result = new BsonDocument("success", "Added");
+        //        return result.ToString();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        var result = new BsonDocument("error", ex.Message);
+        //        return result.ToString();
+        //    }
+        //}
+
 
     }
 }

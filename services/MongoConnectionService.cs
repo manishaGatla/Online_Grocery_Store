@@ -24,7 +24,14 @@ namespace OnlineGrocery.services
 
         public async Task InsertDocumentAsync(string collectionName, BsonDocument document)
         {
+            document.Remove("_id");
             var collection = _database.GetCollection<BsonDocument>(collectionName);
+            collection.InsertOne(document);
+        }
+        public async Task UpdateDeliveryExecutiveAsync(BsonDocument document)
+        {
+            document.Remove("_id");
+            var collection = _database.GetCollection<BsonDocument>("DeliveryExecutive");
             collection.InsertOne(document);
         }
         public async Task AddToCart( BsonDocument document)
@@ -52,7 +59,19 @@ namespace OnlineGrocery.services
             }
             return details;
         }
-        
+        public List<DeliveryExecutives> GetAllExecutives()
+        {
+
+            var filter = Builders<DeliveryExecutives>.Filter.Empty;
+            var collection = _database.GetCollection<DeliveryExecutives>("DeliveryExecutives");
+            var details = collection.Find<DeliveryExecutives>(filter).ToList();
+            foreach (var product in details)
+            {
+                product._id = product._id.ToString();
+            }
+            return details;
+        }
+
 
         public async Task UpdateDocumentAsync(string collectionName, string filter, object document)
         {
@@ -98,7 +117,7 @@ namespace OnlineGrocery.services
             await collection.UpdateOneAsync(filter, updateDetails);
 
 
-            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId.ToString());
+            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId);
             var updatefinaltable = _database.GetCollection<BsonDocument>("FinalOrderDetails");
             await collection.UpdateOneAsync(finalfilter, finalUpdateDetails);
 
