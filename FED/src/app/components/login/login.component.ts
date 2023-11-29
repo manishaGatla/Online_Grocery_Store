@@ -28,7 +28,7 @@ export class LoginComponent {
 
         if(data.password == this.password){
           this.loginService.isLoginSuccessful= true;
-          this.router.navigateByUrl('/home');
+          this.loginService.isDeliveryExec ? this.router.navigateByUrl('/orders') : this.router.navigateByUrl('/home');
         }
         else if(data.password !== this.password){
           this.resetFields();

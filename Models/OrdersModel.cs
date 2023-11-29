@@ -27,7 +27,6 @@
     }
     public class UpdateOrderStatus
     {
-        public string collection { get; set; }
         public string orderId { get; set; }
         public string orderStatus { get; set; }
     }

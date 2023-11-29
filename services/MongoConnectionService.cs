@@ -86,21 +86,21 @@ namespace OnlineGrocery.services
             await collection.UpdateOneAsync(filter, updateDetails);
         }
 
-        public async Task UpdateOrderStatus(object orderId,string status)
+        public async Task UpdateOrderStatus(string orderId,string status)
         {
             var updateDetails = Builders<BsonDocument>.Update
                             .Set("orderStatus", status);
             var finalUpdateDetails = Builders<BsonDocument>.Update
                             .Set("orderDetails.orderStatus",status);
             
-            var filter = Builders<BsonDocument>.Filter.Eq("_id", orderId);
+            var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(orderId));
             var collection = _database.GetCollection<BsonDocument>("Orders");
             await collection.UpdateOneAsync(filter, updateDetails);
 
 
-            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId.ToString());
+            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId);
             var updatefinaltable = _database.GetCollection<BsonDocument>("FinalOrderDetails");
-            await collection.UpdateOneAsync(finalfilter, finalUpdateDetails);
+            await updatefinaltable.UpdateOneAsync(finalfilter, finalUpdateDetails);
 
         }
 

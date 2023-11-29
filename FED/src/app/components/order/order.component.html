@@ -1,13 +1,70 @@
 <div class="orders-list">
-    <div class="order" *ngFor="let order of orders">
-      <div class="order-header" (click)="toggleOrderDetails(order)">
-        <span class="order-title">{{ order.title }}</span>
-        <span class="order-price">{{ order.price | currency }}</span>
-        <span class="order-delivery-time">{{ order.deliveryTime }}</span>
-      </div>
-      <div class="order-details" *ngIf="order.showDetails">
-        <p>expanded</p>
-      </div>
+  <div class="order" *ngFor="let order of orders">
+    <div class="order-header" (click)="toggleOrderDetails(order)">
+      <span class="order-price">Order Status : {{ order.orderDetails.orderStatus }}</span>
+      <span class="order-price">Delivery Type : {{ order.orderDetails.deliveryType }}</span>
+      <span class="order-price">{{ order.paymentDetails.amount }}</span>
+      <span class="order-price">Delivery Date : 12/01/2023</span>
+      <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutiveName }}</span>
+      <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutivephoneNumber
+        }}</span>
     </div>
+    <div class="order-details" *ngIf="order.showDetails">
+      <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      {{getOrderAddress(order.orderDetails.deliveryAddress).addressLine1}} </span>
+      <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      {{getOrderAddress(order.orderDetails.deliveryAddress).addressLine2}} </span>
+      <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      {{getOrderAddress(order.orderDetails.deliveryAddress).city}} </span>
+      <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      {{getOrderAddress(order.orderDetails.deliveryAddress).state }} </span>
+      <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      {{getOrderAddress(order.orderDetails.deliveryAddress).zip }} </span>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Product Name</th>
+            <th>Quantity</th>
+            <th>Price Per Each</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order.cartDetails">
+            <td>{{ item.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price_Per_Each }}</td>
+            <td>{{ getAmount(item) }}</td>
+
+
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="form-group mr-t-10" *ngIf="(loginService.isAdmin || loginService.isDeliveryExec) && 
+        !(order.orderDetails.orderStatus == 'Delivered' || order.orderDetails.orderStatus == 'Cancelled'  ) ">
+          <label class="mr-r-15 margins label-style-register">
+            Status:
+            <input class="mr-r-15  mr-l-15 select-style" type="text" [(ngModel)]="status" />
+          </label>
+        </div>
+        <div class="pd-15">
+          <button class="mr-l-10 sub-btn mr-t-10" 
+          *ngIf="(loginService.isAdmin || loginService.isDeliveryExec) && !(order.orderDetails.orderStatus == 'Delivered' 
+          || order.orderDetails.orderStatus == 'Cancelled'  ) ">Update Order</button>
+          <button class="mr-l-10 sub-btn mr-t-10" *ngIf="loginService.isCustomer && !(order.orderDetails.orderStatus == 'Delivered' 
+          || order.orderDetails.orderStatus == 'Cancelled' || order.orderDetails.orderStatus == 'Ready for Pickup'   || 
+          order.orderDetails.orderStatus == 'Out for Delivered'  )"
+            (click)="updateCartItem(order, 'Cancelled')">Cancel Order</button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
 </div>
-  
