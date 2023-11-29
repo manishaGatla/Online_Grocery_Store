@@ -1,4 +1,4 @@
-<div class="mr-l-180">
+<div class="mr-l-132">
     <h2 class="c-w">Enter Payment Details</h2>
 </div>
 
@@ -20,12 +20,14 @@
         <label class="mr-r-15  margins label-style-register">
             Card Number:
             <input class="mr-r-15  mr-l-61 select-style"
-                type="text"
+                type="number"
                 [(ngModel)]="accountNumber"
 
             />
         </label>
+        <span  *ngIf="!cardNumberValidation()" class="error-message"> Invalid Card Number</span> 
     </div>
+
     <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Card Holder Name:
@@ -38,13 +40,20 @@
 
     </div>
     <div class="form-group">
+        <label for="expireDate" class="mr-r-15 margins label-style-register" >Expiry Date(MM/YY)</label>
+        <input type="text" id="expiryDate" class="mr-r-15  mr-l-15"
+            name="expiryDate" [(ngModel)]="expireDate" (change) ="validateExpiryDate($event)"required>
+            <span  *ngIf="!isMonthValid || !isFutureDate" class="error-message"> Invalid Expiry Date</span>
+    </div>
+    <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Security Code:
             <input class="mr-r-15 mr-l-53 select-style"
-                type="text"
+                type="number"
                 [(ngModel)]="cvv"
             />
         </label>
+        <span  *ngIf="!securityCodeValidation()" class="error-message"> Invalid Security Code</span>
     </div>
     <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
