@@ -90,14 +90,24 @@ namespace OnlineGrocery.services
         {
             var updateDetails = Builders<BsonDocument>.Update
                             .Set("orderStatus", "Delivered");
+            var finalUpdateDetails = Builders<BsonDocument>.Update
+                            .Set("orderDetails.orderStatus", "Delivered");
             if (type == "Admins")
             {
                  updateDetails = Builders<BsonDocument>.Update
                             .Set("orderStatus", "Out For Delivery");
+                finalUpdateDetails = Builders<BsonDocument>.Update
+                            .Set("orderDetails.orderStatus", "Out For Delivery");
             }
             var filter = Builders<BsonDocument>.Filter.Eq("_id", orderId);
             var collection = _database.GetCollection<BsonDocument>("Orders");
             await collection.UpdateOneAsync(filter, updateDetails);
+
+
+            var finalfilter = Builders<BsonDocument>.Filter.Eq("orderId", orderId.ToString());
+            var updatefinaltable = _database.GetCollection<BsonDocument>("FinalOrderDetails");
+            await collection.UpdateOneAsync(finalfilter, finalUpdateDetails);
+
         }
 
         public async Task GetDocumentsAsync(string collectionName, string filter)
