@@ -380,8 +380,9 @@ namespace OnlineGrocery.services
                     totalAmount = details.paymentDetails.amount
 
                 };
-                
-                orderDetailsObject.Add(_d.ToBsonDocument());      
+                var _dd = _d.ToBsonDocument();
+                _dd.Remove("_id");
+                orderDetailsObject.Add(_dd);      
             }
             _database.GetCollection<BsonDocument>("OrderDetails").InsertMany(orderDetailsObject);
             var deleteFilter = Builders<BsonDocument>.Filter.Eq("CustomerEmail", useremail);
