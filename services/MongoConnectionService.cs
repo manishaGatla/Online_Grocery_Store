@@ -39,7 +39,7 @@ namespace OnlineGrocery.services
         {
             var updateDetails = Builders<BsonDocument>.Update.Set("isApprovedByAdmin", approve);
             var filter = "{ email: " + "\"" + email + "\"" + "}";
-            var collection = _database.GetCollection<BsonDocument>("DeliveryExecutive");
+            var collection = _database.GetCollection<BsonDocument>("DeliveryExecutives");
             collection.UpdateOne(filter, updateDetails);
         }
         public async Task AddToCart( BsonDocument document)
