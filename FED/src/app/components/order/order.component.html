@@ -25,6 +25,14 @@
       <span class="order-price" 
       *ngIf="order.orderDetails.deliveryType == 'By Executive'">
       {{getOrderAddress(order.orderDetails.deliveryAddress).zip }} </span>
+      <div>
+        <span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      Delivery Executive Name: John </span>
+      </div><div><span class="order-price" 
+      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
+      Delivery Executive Contact: +1 1234567891 </span>
+      </div>
       <table class="table">
         <thead>
           <tr>
@@ -56,11 +64,11 @@
         <div class="pd-15">
           <button class="mr-l-10 sub-btn mr-t-10" 
           *ngIf="(loginService.isAdmin || loginService.isDeliveryExec) && !(order.orderDetails.orderStatus == 'Delivered' 
-          || order.orderDetails.orderStatus == 'Cancelled'  ) ">Update Order</button>
+          || order.orderDetails.orderStatus == 'Cancelled'  ) " (click)="updateCartItem(order)">Update Order</button>
           <button class="mr-l-10 sub-btn mr-t-10" *ngIf="loginService.isCustomer && !(order.orderDetails.orderStatus == 'Delivered' 
           || order.orderDetails.orderStatus == 'Cancelled' || order.orderDetails.orderStatus == 'Ready for Pickup'   || 
           order.orderDetails.orderStatus == 'Out for Delivered'  )"
-            (click)="updateCartItem(order, 'Cancelled')">Cancel Order</button>
+            (click)="updateCartItem(order, 'Cancelled')" >Cancel Order</button>
         </div>
 
       </div>

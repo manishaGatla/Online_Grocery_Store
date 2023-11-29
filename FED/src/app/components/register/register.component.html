@@ -5,12 +5,14 @@
     </div>
     <div class="form-group">
       <label for="phone" class="mr-b-10">Phone Number</label>
-      <input class="wd-25"type="tel" id="phone"  [(ngModel)]="phoneNumber" placeholder="Enter your phone number" required>
-      <!-- <span class="error-message">Please enter a valid phone number</span> -->
+      <input class="wd-25"type="number" id="phone"  [(ngModel)]="phoneNumber" (change)="validatePhoneNumber($event)" placeholder="Enter your phone number" required>
+      <div class="error-message" *ngIf="!isPhoneNumberValid">Invalid Phone Number</div>
     </div>
     <div class="form-group">
       <label for="email" class="mr-b-10">Email</label>
       <input class="wd-25"type="email" id="email"  [(ngModel)]="email" placeholder="Enter your email" required>
+      <span  *ngIf="!isValidEmail(email)" class="error-message"> Invalid email format</span> 
+      
     </div>
     <div class="form-group">
       <label for="password" class="mr-b-10">Password</label>
@@ -35,11 +37,13 @@
 <section class="login-container" *ngIf="role == 'deliveryExe'">
     <div class="form-group" id="admin-fields">
       <label for="accountNumber">Account Number</label>
-      <input class="wd-25" type="text"  [(ngModel)]="accountNumber" id="accountNumber" placeholder="Enter account number">
+      <input class="wd-25" type="text"  [(ngModel)]="accountNumber"  id="accountNumber" placeholder="Enter account number">
+      <span  *ngIf="!AccountNumberValidation(accountNumber)" class="error-message"> Invalid Account Number</span> 
     </div>
     <div class="form-group" id="admin-fields">
       <label for="routingNumber">Routing Number</label>
       <input class="wd-25"type="text" id="routingNumber" [(ngModel)]="routingNumber"  placeholder="Enter routing number">
+      <span  *ngIf="!RoutingNumberValidation(routingNumber)" class="error-message"> Invalid Routing Number</span> 
     </div>
     <div class="form-group" id="admin-fields">
       <label for="accountHolderName">Name of Account Holder</label>
