@@ -15,4 +15,13 @@ export class RegisterServiceService {
   public addDeliveryExec(data: any): Observable<any>{
     return this.http.post(this.baseurl + "/api/Register/newUser/deliveryExec", data);
   } 
+
+  public getExecutives(): Observable<any>{
+    return this.http.get(this.baseurl + "/api/Register/getAllExecutives");
+  } 
+
+  public updateExecutives(executiveEmail: any , status: any): Observable<any>{
+    return this.http.post(this.baseurl + "/api/Register/approveExecutive?executiveEmail=" + executiveEmail + "&approve="+ status, null);
+  } 
 }
+

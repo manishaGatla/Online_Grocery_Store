@@ -1,8 +1,10 @@
 <div class="cart-list" *ngIf="!cartService.showPaymentSection">
   <div class="cart-item" *ngFor="let item of cartItems">
     <div class="cart-header" (click)="toggleItemDetails(item)">
-      <span class="item-title">{{ item.name }}</span>
-      <span class="item-price">{{ item.price_Per_Each }}</span>
+      <span class="item-title">Product Name: {{ item.name }}</span>
+      <span class="item-price">Quantity: {{ item.quantity }}</span>
+      <span class="item-price">Total Amount: {{ item.total }}</span>
+      <span class="item-price">Product Price: {{ item.price_Per_Each }}</span>
     </div>
     <div class="item-details pd-15" *ngIf="item.showDetails">
 

@@ -27,8 +27,13 @@
     }
     public class UpdateOrderStatus
     {
+        
         public string orderId { get; set; }
         public string orderStatus { get; set; }
+
+        public string? selectedDeliveryExecutiveName { get; set; }
+
+        public string? selectedDeliveryExecutivePhoneNumber { get; set; }
     }
 
     public class OrderDetails
@@ -58,6 +63,12 @@
         public PaymentsModel paymentDetails { get; set; }
 
         public string orderId { get; set; }
+
+
+
+        public string? selectedDeliveryExecutiveName { get; set; }
+
+        public string? selectedDeliveryExecutivePhoneNumber { get; set; }
     }
 
 

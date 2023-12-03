@@ -33,4 +33,8 @@ export class ProductsService {
   addToCart(product: any): Observable<any>{
     return this.httpClient.post(this.baseurl + '/api/Orders/addToCart', product);
   }
+
+  addCategory(reqBody: any ){
+    return this.httpClient.post(this.baseurl + '/api/Orders/addCategory', reqBody);
+   }
 }

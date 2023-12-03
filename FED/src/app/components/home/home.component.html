@@ -43,10 +43,13 @@
 
 <section *ngIf="loginService.isAdmin">
   <div>
-    <div *ngIf="!isAddNewProdBtnClicked">
+    <div *ngIf="!isAddNewProdBtnClicked && !isAddNewCatBtnClicked">
       <div >
         <button class="margins sub-btn"  (click)="addNewProdBtnClicked()">
           Add New Product
+        </button>
+        <button class="margins sub-btn"  (click)="addNewCatBtnClicked()">
+          Add New Category
         </button>
         <span class="dropdown margins">
           <button class="dropdown-toggle c-b" placeholder="Select Categories to filter by toggling"
@@ -104,6 +107,33 @@
       </div>
       </div>
 
+      <div class="login-container" *ngIf="isAddNewCatBtnClicked">
+        
+        <section  >
+          <div class="form-group">
+            <label class="mr-b-10">Category Name:</label>
+            <input class="wd-25" type="text" [(ngModel)]="name">
+          </div>
+            <div class="form-group">
+              <label for="isReturnable" class="mr-b-10">Is Returnable</label>
+              <div class="role-radio">
+                <input type="radio" id="Yes" name="isReturnable" value="Yes" (change) ="OnRadioBtnForIsRetChange($event)">
+                <label for="Yes" class="mr-20 mr-t-5">Yes</label>
+                
+            </div>
+        
+            <div class="role-radio">
+                <input type="radio" id="No" name="isReturnable" value="No" (change) ="OnRadioBtnForIsRetChange($event)">
+                <label for="No" class="mr-20 mr-t-5">No</label>
+              </div>
+            </div>
+        
+          
+          <button class="sub-btn margins" type="submit" (click)="onCatAddSubmit()">Add Category</button>
+          <button class="sub-btn margins " type="submit" (click)="backClicked()">>>Back</button>
+        </section>
+        </div>
+
       <div class="login-container" *ngIf="isAddNewProdBtnClicked">
         
       <section  >
@@ -124,10 +154,6 @@
         <div class="form-group">
           <label class="mr-b-10">Price Per Each:</label>
           <input class="wd-25" type="number" [(ngModel)]="price_Per_Each">
-        </div>
-        <div class="form-group">
-          <label class="mr-b-10">Previous Price:</label>
-          <input class="wd-25" type="number" [(ngModel)]="previous_Price">
         </div>
         <div class="form-group">
           <label class="mr-b-10">Image:</label>
