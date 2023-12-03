@@ -1,4 +1,4 @@
-<section class="login-container">
+<section class="login-container flex-d">
     <div class="form-group">
       <label for="name" class="mr-b-10">Name</label>
       <input class="wd-25"type="text" id="name" [(ngModel)]="name" placeholder="Enter your name" required>
@@ -23,6 +23,10 @@
       <input class="wd-25"type="password" id="password"  [(ngModel)]="confirmPassword" (change)="checkPasswordValidation()"placeholder="Enter your password" required>
       <span  *ngIf="!isPasswordNotValid" class="error-message"> Password Mismatch</span> 
     </div>
+    <div class="form-group" id="admin-fields">
+      <label for="address">Address</label>
+      <input class="wd-25" type="text"  [(ngModel)]="address"  id="address" placeholder="Enter Address">
+    </div>
     <div class="form-group">
       <label for="role" class="mr-b-10">Role</label>
       <div class="role-radio">
@@ -39,6 +43,8 @@
 
 </section>
 
+
+
 <section class="login-container" *ngIf="role == 'deliveryExe'">
     <div class="form-group" id="admin-fields">
       <label for="accountNumber">Account Number</label>
@@ -54,6 +60,16 @@
       <label for="accountHolderName">Name of Account Holder</label>
       <input class="wd-25"type="text" id="accountHolderName"  [(ngModel)]="accountHolderName"  placeholder="Enter account holder name">
     </div>  
+    <div class="form-group" id="admin-fields">
+      <label for="accountHolderName">SSN</label>
+      <input class="wd-25"type="text" id="ssn"  [(ngModel)]="ssn"  placeholder="Enter SSN">
+    </div>  
+    <div class="form-group" id="admin-fields">
+      <label for="bankName">Name of Bank</label>
+      <input class="wd-25"type="text" id="bankName"  [(ngModel)]="bankName"  placeholder="Enter bank name">
+    </div>  
+   
+
 </section>
 
 <section class="login-container">

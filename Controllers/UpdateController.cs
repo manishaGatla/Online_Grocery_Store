@@ -94,7 +94,7 @@ namespace OnlineGrocery.Controllers
         {
             try
             {
-                await _mongoConnService.UpdateOrderStatus(updateDetails.orderId, updateDetails.orderStatus);
+                await _mongoConnService.UpdateOrderStatus(updateDetails.orderId, updateDetails.orderStatus, updateDetails.selectedDeliveryExecutiveName, updateDetails.selectedDeliveryExecutivePhoneNumber);
                 var result = new BsonDocument("success", "Updated");
                 return result.ToString();
             }

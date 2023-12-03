@@ -10,7 +10,7 @@ import { NotificationService } from 'src/app/services/notification.service';
 export class RegisterComponent implements OnInit{
   name: string = '';
   phoneNumber: string = '';
-  isPasswordNotValid: boolean = false;
+  isPasswordNotValid: boolean = true;
   email: string = '';
   confirmPassword: any = null;
   password: string = '';
@@ -20,6 +20,9 @@ export class RegisterComponent implements OnInit{
   accountHolderName: string = '';
   isPhoneNumberValid: boolean = true;
   isAccountNumberValid: boolean = true;
+  ssn: any = null;
+  bankName: any  = null;
+  address: any = null;
   constructor(private registerService: RegisterServiceService, private notificationService: NotificationService) {}
   ngOnInit(): void {
     //this.getorders
@@ -57,7 +60,8 @@ export class RegisterComponent implements OnInit{
 }
 
 checkPasswordValidation(){
- this.isPasswordNotValid = this.password != this.confirmPassword ? false : true;
+
+ this.isPasswordNotValid = this.password != null &&  this.confirmPassword != null ?  this.password != this.confirmPassword ? false : true : true;
 }
 
 AccountNumberValidation(accountNumber: string): boolean {
@@ -78,7 +82,11 @@ RoutingNumberValidation(routingNumber: string): boolean {
         phoneNumber: this.phoneNumber.toString(),
         accountNumber : this.accountNumber,
         nameOnCard: this.accountHolderName,
-        routingNumber : this.routingNumber
+        routingNumber : this.routingNumber,
+        ssn: this.ssn,
+        address: this.address,
+        accountHolderName: this.accountHolderName,
+        bankName: this.bankName
       }
     }
     else{
@@ -86,7 +94,8 @@ RoutingNumberValidation(routingNumber: string): boolean {
         name: this.name,
         email : this.email,
         password: this.password,
-        phoneNumber: this.phoneNumber.toString()   
+        phoneNumber: this.phoneNumber.toString()   ,
+        address: this.address 
       }
       
 

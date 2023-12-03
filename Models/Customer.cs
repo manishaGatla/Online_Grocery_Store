@@ -10,6 +10,7 @@
         public string password { get; set; }
 
         public string phoneNumber { get; set; }
+        public string address { get; set; }
 
 
     }
@@ -45,6 +46,9 @@
         public string routingNumber { get; set; }
         public int isApprovedByAdmin { get; set; }
 
+        public string? ssn { get; set; } = null;
+        public string? bankName { get; set; } = null;
+
     }
     public class InsertDeliveryExecutives
     {
@@ -64,6 +68,9 @@
         public string routingNumber { get; set; }
 
         public int isApprovedByAdmin { get; set; } = 0;
+        public string? ssn { get; set; } = null;
+        public string? bankName { get; set; } = null;
+
 
     }
 }

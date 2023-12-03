@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class HomeComponent implements OnInit {
 
   isAddNewProdBtnClicked: boolean = false;
+  isAddNewCatBtnClicked: boolean = false;
   isEditProductBtnClicked: boolean = false;
   product: any;
   selectedCategories: string[] = [];
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
   product_URL:any;
   name: any;
   isAvaliable: any;
+  isCatReturnable: any = null;
 
 
 
@@ -33,20 +35,24 @@ export class HomeComponent implements OnInit {
     this.isAddNewProdBtnClicked = false;
     this.isEditProductBtnClicked = false;
     if(this.loginService.isCustomer || this.loginService.isAdmin){
-      this.productService.getCategories().subscribe((resProd)=>{
-        this.categories = resProd;
-        this.productService.getProducts().subscribe((res)=>{
-          this.products = res;
-          this.products.forEach((c: any)=> {c.quantity = 1;c.isEditProductBtnClicked = false});
-          this.products = this.loginService.isCustomer ? this.products.filter((c: any)=> c.availability == 'Yes') : this.products;
-        })
-      })
+     this.getCategories();
      
     }
   }
 
+  getCategories(){
+    this.productService.getCategories().subscribe((resProd)=>{
+      this.categories = resProd;
+      this.productService.getProducts().subscribe((res)=>{
+        this.products = res;
+        this.products.forEach((c: any)=> {c.quantity = 1;c.isEditProductBtnClicked = false});
+        this.products = this.loginService.isCustomer ? this.products.filter((c: any)=> c.availability == 'Yes') : this.products;
+      })
+    })
+  }
+
   onProductAddSubmit(item: any = null): void {
-    if(item.isEditProductBtnClicked){
+    if(item && item.isEditProductBtnClicked){
      item.price_Per_Each = "$" + this.price_Per_Each + "/oz";
       this.productService.editProduct(item).subscribe((res)=>{
         this.productService.getProducts().subscribe((res)=>{
@@ -62,7 +68,6 @@ export class HomeComponent implements OnInit {
       this.product ={
         name: this.name,
         price_Per_Each : "$" + this.price_Per_Each + "/oz",
-        previous_Price :"$" + this.previous_Price + "/oz",
         product_Url : this.product_URL,
         category: this.selectedCategory
       }
@@ -123,8 +128,30 @@ export class HomeComponent implements OnInit {
   }
 
 
+  onCatAddSubmit(){
+var body ={
+  categoryName : this.name,
+isReturnable: this.isCatReturnable
+}
+this.productService.addCategory(body).subscribe((res)=>{
+  if(res){   
+    this.getCategories();
+    this.isAddNewProdBtnClicked = false;
+    this.isAddNewCatBtnClicked = false;
+    this.name = null;
+    this.isCatReturnable = null;
+    
+  }
+ })
+
+  }
+
   addNewProdBtnClicked(){
     this.isAddNewProdBtnClicked = true;
+  }
+
+  addNewCatBtnClicked(){
+    this.isAddNewCatBtnClicked = true;
   }
 
   onFileSelected(event: any) {
@@ -141,9 +168,17 @@ export class HomeComponent implements OnInit {
     item.availability  = event.target.value;
   }
 
+
+  OnRadioBtnForIsRetChange(event: any){
+    this.isCatReturnable  = event.target.value;
+  }
+
   backClicked(){
     this.resetFields();
     this.isAddNewProdBtnClicked = false;
+    this.isAddNewCatBtnClicked = false;
+    this.name = null;
+    this.isCatReturnable = null;
   }
 
   resetFields(){

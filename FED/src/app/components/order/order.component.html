@@ -4,8 +4,9 @@
       <span class="order-price">Customer Name: {{order.paymentDetails.customerName}}</span>
       <span class="order-price">Order Status : {{ order.orderDetails.orderStatus }}</span>
       <span class="order-price">Delivery Type : {{ order.orderDetails.deliveryType }}</span>
-      <span class="order-price">{{ order.paymentDetails.amount }}</span>
-      <span class="order-price">Delivery Date : 12/01/2023</span>
+      <span class="order-price">Total Amount : {{ order.paymentDetails.amount }}</span>
+      <span class="order-price" *ngIf="order.orderDetails.orderStatus !== 'Delivered' && order.orderDetails.orderStatus !== 'Cancelled'">Estimated Delivery Date : 12/01/2023</span>
+      <span class="order-price" *ngIf="order.orderDetails.orderStatus == 'Delivered' " >Delivery Date : {{date}}</span>
       <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutiveName }}</span>
       <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutivephoneNumber
         }}</span>
@@ -28,11 +29,11 @@
       {{getOrderAddress(order.orderDetails.deliveryAddress).zip }} </span>
       <div>
         <span class="order-price" 
-      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
-      Delivery Executive Name: John </span>
+      *ngIf="order.orderDetails.deliveryType == 'By Executive' && order.selectedDeliveryExecutiveName != null">
+      Delivery Executive Name: {{order.selectedDeliveryExecutiveName}} </span>
       </div><div><span class="order-price" 
-      *ngIf="order.orderDetails.deliveryType == 'By Executive'">
-      Delivery Executive Contact: +1 1234567891 </span>
+      *ngIf="order.orderDetails.deliveryType == 'By Executive' && order.selectedDeliveryExecutiveName != null">
+      Delivery Executive Contact: {{order.selectedDeliveryExecutivePhoneNumber}} </span>
       </div>
       <table class="table">
         <thead>
@@ -53,20 +54,42 @@
         </tbody>
       </table>
       <div>
-        <div class="form-group mr-t-10" *ngIf="(loginService.isAdmin || loginService.isDeliveryExec) && 
-        !(order.orderDetails.orderStatus == 'Delivered' || order.orderDetails.orderStatus == 'Cancelled' || order.orderDetails.orderStatus == 'Return Approved' ||  order.orderDetails.orderStatus == 'Return Initiated' ||order.orderDetails.orderStatus == 'Return Approved'  ) ">
+        <div class="form-group mr-t-10" *ngIf="checkIsStatusFieldNeeded(order)">
           <label class="mr-r-15 margins label-style-register">
             Status:
-            <input class="mr-r-15  mr-l-15 select-style" type="text" [(ngModel)]="status" />
+            <select [(ngModel)]="status" (change)="onStatusChange($event)" class="form-control">
+              <option value="" disabled selected>Select an option</option>
+              <option *ngFor="let status of statuses" [value]="status._id">{{ status.status }}</option>
+            </select>
           </label>
+        </div>
+
+        <div class="" *ngIf="loginService.isAdmin && order.orderDetails.orderStatus == 'Order Confirmed' 
+        && order.orderDetails.deliveryType == 'By Executive' ">
+        <label class="mr-r-15 margins label-style-register">
+          Assign Delivery Executive:
+          <select  (change)="onDeliveryExecChange($event)" class="form-control">
+            <option value="" disabled selected>Select an option</option>
+            <option *ngFor="let exec of deliveryExec" [value]="exec._id">{{ exec.name  }}</option>
+          </select>
+        </label>
+        </div>
+        <div class="form-group mr-t-10" *ngIf="
+        (order.orderDetails.deliveryType !== 'By Executive' && loginService.isAdmin)
+         ||
+          (order.orderDetails.deliveryType !== 'By Executive' 
+          && loginService.isCustomer && order.orderDetails.orderStatus == 'Ready for Pickup')">
+          <span>Pickup Address: </span>
+          <div class="pd-15">11011, stop and shop , hickman mills road, kansas city , Missouri</div>
         </div>
         <div class="pd-15">
           <button class="mr-l-10 sub-btn mr-t-10" 
-          *ngIf="(loginService.isAdmin || loginService.isDeliveryExec) && !(order.orderDetails.orderStatus == 'Delivered' 
-          || order.orderDetails.orderStatus == 'Cancelled' || order.orderDetails.orderStatus == 'Return Approved' ||  order.orderDetails.orderStatus == 'Return Initiated' ||order.orderDetails.orderStatus == 'Return Approved' ) " (click)="updateCartItem(order)">Update Order</button>
+          *ngIf="checkIsStatusFieldNeeded(order)" 
+          (click)="updateCartItem(order)">Update Order</button>
           <button class="mr-l-10 sub-btn mr-t-10" *ngIf="loginService.isCustomer && !(order.orderDetails.orderStatus == 'Delivered' 
           || order.orderDetails.orderStatus == 'Cancelled' || order.orderDetails.orderStatus == 'Ready for Pickup'   || 
-          order.orderDetails.orderStatus == 'Out for Delivered' || order.orderDetails.orderStatus == 'Return Approved' ||  order.orderDetails.orderStatus == 'Return Initiated' ||order.orderDetails.orderStatus == 'Return Approved' )"
+          order.orderDetails.orderStatus == 'Out for Delivery' || order.orderDetails.orderStatus == 'Return Approved' ||
+            order.orderDetails.orderStatus == 'Return Initiated' ||order.orderDetails.orderStatus == 'Return Approved' )"
             (click)="updateCartItem(order, 'Cancelled')" >Cancel Order</button>
             <button class="mr-l-10 sub-btn mr-t-10" *ngIf="loginService.isCustomer && checkIsReturnAvaliable(order) && order.orderDetails.orderStatus == 'Delivered'  "
             (click)="updateCartItem(order, 'Return Initiated')" >Initiate Return </button>

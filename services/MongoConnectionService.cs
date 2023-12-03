@@ -55,6 +55,13 @@ namespace OnlineGrocery.services
             collection.InsertOne(document);
         }
 
+        public async Task AddCategory(BsonDocument document)
+        {
+            document.Remove("_id");
+            var collection = _database.GetCollection<BsonDocument>("Categories");
+            collection.InsertOne(document);
+        }
+
         public List<GetCartModel> GetAllCartDetails(String UserEmail)
         {
             
@@ -104,8 +111,7 @@ namespace OnlineGrocery.services
         {
             var updateDetails = Builders<BsonDocument>.Update
                         .Set("Availability", ProductDetails.Availability)
-                        .Set("Price_Per_Each", ProductDetails.Price_Per_Each)
-                        .Set("Previous_Price", ProductDetails.Previous_Price);
+                        .Set("Price_Per_Each", ProductDetails.Price_Per_Each);
 
 
             var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(ProductDetails._id));
@@ -113,13 +119,18 @@ namespace OnlineGrocery.services
             await collection.UpdateOneAsync(filter, updateDetails);
         }
 
-        public async Task UpdateOrderStatus(string orderId,string status)
+        public async Task UpdateOrderStatus(string orderId,string status, string selectedDeliveryExcName, string selectedDeliveryExecPhone)
         {
             var updateDetails = Builders<BsonDocument>.Update
-                            .Set("orderStatus", status);
+                            .Set("orderStatus", status)
+                            .Set("selectedDeliveryExecutiveName", selectedDeliveryExcName)
+                            .Set("selectedDeliveryExecutivePhoneNumber", selectedDeliveryExecPhone);
             var finalUpdateDetails = Builders<BsonDocument>.Update
-                            .Set("orderDetails.orderStatus",status);
-            
+                            .Set("orderDetails.orderStatus", status)
+                            .Set("selectedDeliveryExecutiveName", selectedDeliveryExcName)
+                            .Set("selectedDeliveryExecutivePhoneNumber", selectedDeliveryExecPhone);
+
+
             var filter = Builders<BsonDocument>.Filter.Eq("_id", ObjectId.Parse(orderId));
             var collection = _database.GetCollection<BsonDocument>("Orders");
             await collection.UpdateOneAsync(filter, updateDetails);

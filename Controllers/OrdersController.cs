@@ -129,8 +129,6 @@ namespace OnlineGrocery.Controllers
 
         }
 
-
-
         [HttpPost("addProduct")]
         public async Task<String> addProduct(ProductsModel productDetails)
         {
@@ -139,6 +137,26 @@ namespace OnlineGrocery.Controllers
 
 
                 await _mongoConnService.AddProduct(productDetails.ToBsonDocument());
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+        }
+
+
+
+        [HttpPost("addCategory")]
+        public async Task<String> addCategory(Categories categoryDetails)
+        {
+            try
+            {
+
+
+                await _mongoConnService.AddCategory(categoryDetails.ToBsonDocument());
                 var result = new BsonDocument("success", "Added");
                 return result.ToString();
             }
