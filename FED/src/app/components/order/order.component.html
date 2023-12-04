@@ -5,7 +5,7 @@
       <span class="order-price">Order Status : {{ order.orderDetails.orderStatus }}</span>
       <span class="order-price">Delivery Type : {{ order.orderDetails.deliveryType }}</span>
       <span class="order-price">Total Amount : {{ order.paymentDetails.amount }}</span>
-      <span class="order-price" *ngIf="order.orderDetails.orderStatus !== 'Delivered' && order.orderDetails.orderStatus !== 'Cancelled'">Estimated Delivery Date : 12/01/2023</span>
+      <span class="order-price" *ngIf="order.orderDetails.orderStatus !== 'Delivered' && order.orderDetails.orderStatus !== 'Cancelled'">Estimated Delivery Date : 12/06/2023</span>
       <span class="order-price" *ngIf="order.orderDetails.orderStatus == 'Delivered' " >Delivery Date : {{date}}</span>
       <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutiveName }}</span>
       <span class="order-delivery-time" *ngIf="order.deliveryExecutiveName">{{ order.deliveryExecutivephoneNumber
