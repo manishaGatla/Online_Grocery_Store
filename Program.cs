@@ -4,7 +4,7 @@ using OnlineGrocery.services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Adding services to the container.
 
 //var corsSettings = Configuration.GetSection("CorsSettings").Get<CorsSettings>();
 
