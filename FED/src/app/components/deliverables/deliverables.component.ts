@@ -19,6 +19,9 @@ export class DeliverablesComponent implements OnInit {
     this.orderService.getDeliverables(this.loginService.profileDetails.email).subscribe((res)=>{
       if(res){
         this.deliverablesItems = res;
+        this.deliverablesItems = this.deliverablesItems.filter((order: any)=>{
+          order.orderDetails.deliveryType !== 'By Executive'
+        })
       }
     })
   }

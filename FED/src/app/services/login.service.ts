@@ -14,6 +14,7 @@ export class LoginService {
   isLoggedOutSuccessful: boolean = false;
 
   profileDetails: any;
+  showDeliveryErrMsg: any;
 
   constructor(private http: HttpClient) {}
 

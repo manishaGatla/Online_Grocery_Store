@@ -56,7 +56,7 @@ namespace OnlineGrocery.Controllers
                 object _id = ObjectId.Parse(id);
 
                 await _mongoConnService.RemoveFromCart(_id);
-                var result = new BsonDocument("success", "Added");
+                var result = new BsonDocument("success", "Removed");
                 return result.ToString();
 
             }
@@ -98,5 +98,7 @@ namespace OnlineGrocery.Controllers
                 return null;
             }
         }
+
+        
     }
 }

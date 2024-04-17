@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NotificationMsgComponent } from './components/notification-msg/notification-msg.component';
 import { DeliverablesComponent } from './components/deliverables/deliverables.component';
 import { PaymentsComponent } from './components/payments/payments.component';
+import { DeliveryExecutivesComponent } from './delivery-executives/delivery-executives.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,8 @@ import { PaymentsComponent } from './components/payments/payments.component';
     RegisterComponent,
     NotificationMsgComponent,
     DeliverablesComponent,
-    PaymentsComponent
+    PaymentsComponent,
+    DeliveryExecutivesComponent
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,9 @@ export class CartService {
     city: null
 
   } ;
+  cartItems: any =[];
+  deliveryOptions: any =  ["Store Pickup", "By Executive"];
+  selectedDeliveryOption: any;
   constructor(private httpClient: HttpClient) { }
 
   getCartItemsByEmail(email: any): Observable<any>{
@@ -31,6 +34,6 @@ export class CartService {
   }
 
   updateItemFromCart(cartItemId : any, quantity: any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '' +cartItemId + quantity, null);
+    return this.httpClient.post(this.baseurl + '/api/Update/updateCart?id=' +cartItemId + "&quantity=" + quantity, null);
   }
 }

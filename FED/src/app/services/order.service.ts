@@ -10,11 +10,11 @@ export class OrderService {
   constructor(private httpClient : HttpClient) { }
 
   getOrdersByEmailId(emailId: any): Observable<any>{
-    return this.httpClient.get(this.baseurl + '/api/get/orders?emailId =' + emailId);
+    return this.httpClient.get(this.baseurl + '/api/Orders/getAllCustomerOrders?customerId=' + emailId);
   }
 
   getOrders(): Observable<any>{
-    return this.httpClient.get(this.baseurl + '/api/get/orders');
+    return this.httpClient.get(this.baseurl + '/api/Orders/getAllOrders');
   }
 
   getDeliverables(emailId: any): Observable<any>{
@@ -26,6 +26,6 @@ export class OrderService {
   }
 
   updateOrderStatus(reqBody: any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '' ,reqBody )
+    return this.httpClient.post(this.baseurl + '/api/Update/updateOrderStatus' ,reqBody  )
   }
 }

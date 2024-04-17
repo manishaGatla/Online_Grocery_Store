@@ -15,20 +15,50 @@ namespace OnlineGrocery.Controllers
         {
             _mongoConnService = mongoConnService;
         }
-        //[HttpGet("get")]
-        //public String GetAllOders()
-        //{
-        //    try
-        //    {
+        [HttpGet("getAllOrders")]
+        public List<ReturnedOrder> GetAllOders()
+        {
+            try
+            {
 
-        //        var user = _mongoConnService.GetAllOrders();
-        //        return user.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return ex.Message;
-        //    }
-        //}
+                var user = _mongoConnService.GetAllOrders();
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        [HttpGet("getAllCustomerOrders")]
+        public List<ReturnedOrder> getAllCustomerOrders(string customerId)
+        {
+            try
+            {
+                
+                var user = _mongoConnService.GetAllCustomerOrders(customerId);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+            [HttpGet("getAllDeliveredOrders")]
+        public List<GetOrdersModel> getAllDeliveredOrders(string deliveryExecutiveId)
+        {
+            try
+            {
+
+                var user = _mongoConnService.GetAllDeliveredOrders(deliveryExecutiveId);
+                return user;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         [HttpGet("getAllCategories")]
         public List<Categories> getAllCategories()
         {
@@ -78,6 +108,66 @@ namespace OnlineGrocery.Controllers
             
         }
 
+       
+        [HttpPost("placeOrder")]
+        public async Task<String> placeOrder(PlaceOrder details,string useremail)
+        {
+            try
+            {
+
+                await _mongoConnService.PlaceOrder(details,useremail);
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+
+
+
+        }
+
+        [HttpPost("addProduct")]
+        public async Task<String> addProduct(ProductsModel productDetails)
+        {
+            try
+            {
+
+
+                await _mongoConnService.AddProduct(productDetails.ToBsonDocument());
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+        }
+
+
+
+        [HttpPost("addCategory")]
+        public async Task<String> addCategory(Categories categoryDetails)
+        {
+            try
+            {
+
+
+                await _mongoConnService.AddCategory(categoryDetails.ToBsonDocument());
+                var result = new BsonDocument("success", "Added");
+                return result.ToString();
+            }
+            catch (Exception ex)
+            {
+                var result = new BsonDocument("error", ex.Message);
+                return result.ToString();
+            }
+        }
+
+
         [HttpGet("getCart")]
         public List<GetCartModel> getAllCartDetails(String UserEmail)
         {
@@ -91,9 +181,7 @@ namespace OnlineGrocery.Controllers
             {
                 return null;
             }
-
-
-
         }
+
     }
 }

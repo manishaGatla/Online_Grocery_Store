@@ -1,11 +1,15 @@
-<section class="payment-container">
-
+<div class="mr-l-132">
     <h2 class="c-w">Enter Payment Details</h2>
-    <div class="form-group">
+</div>
+
+
+
+<section class="payment-container">
+  <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Card Type:
-            <select value="selectedPaymentMethod" class=" mr-l-90 mr-r-15 select-style" >
-                <option value="">Select Card Type</option>
+            <select [(ngModel)]="selectedPaymentMethod" class=" mr-l-90 mr-r-15 select-style" placeholder="Select Card Type">
+
                 <option value="debit">Debit Card</option>
                 <option value="credit">Credit Card</option>
             </select>
@@ -16,38 +20,47 @@
         <label class="mr-r-15  margins label-style-register">
             Card Number:
             <input class="mr-r-15  mr-l-61 select-style"
-                type="text"
-                value="accountNumber"
+                type="number"
+                [(ngModel)]="accountNumber"
 
             />
         </label>
+        <span  *ngIf="!cardNumberValidation()" class="error-message"> Invalid Card Number</span> 
     </div>
+
     <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Card Holder Name:
             <input class="mr-r-15  mr-l-15 select-style"
                 type="text"
-                value="cardHolderName"
+                [(ngModel)]="cardHolderName"
                
             />
         </label>
 
     </div>
     <div class="form-group">
+        <label for="expireDate" class="mr-r-15 margins label-style-register" >Expiry Date(MM/YY)</label>
+        <input type="text" id="expiryDate" class="mr-r-15  mr-l-15"
+            name="expiryDate" [(ngModel)]="expireDate" (change) ="validateExpiryDate($event)"required>
+            <span  *ngIf="!isMonthValid || !isFutureDate" class="error-message"> Invalid Expiry Date</span>
+    </div>
+    <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
-            Security Code:
+            CVV:
             <input class="mr-r-15 mr-l-53 select-style"
-                type="text"
-                value="cvv"
+                type="number"
+                [(ngModel)]="cvv"
             />
         </label>
+        <span  *ngIf="!securityCodeValidation()" class="error-message"> Invalid Security Code</span>
     </div>
     <div class="form-group">
         <label class="mr-r-15 margins label-style-register">
             Billing Address
             <input class="mr-r-15 mr-l-53 select-style"
                 type="text"
-                value="billingAddress"
+                [(ngModel)]="billingAddress"
             />
         </label>
     </div>

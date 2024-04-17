@@ -14,6 +14,7 @@ export class LoginComponent {
   email: any;
   password: any;
   onLogin(){
+    this.loginService.showDeliveryErrMsg = false;
     this.loginService.getDetailsByEmail(this.email).subscribe((res : any)=>{
       if(res && res.error != null){
         this.resetFields();
@@ -28,7 +29,12 @@ export class LoginComponent {
 
         if(data.password == this.password){
           this.loginService.isLoginSuccessful= true;
-          this.router.navigateByUrl('/home');
+          if(this.loginService.isDeliveryExec){
+            this.loginService.showDeliveryErrMsg = this.loginService.profileDetails.isApprovedByAdmin == 0 ;
+            if(this.loginService.profileDetails.isApprovedByAdmin == 0) this.resetFields();
+            this.loginService.profileDetails.isApprovedByAdmin == 1 ? this.router.navigateByUrl('/orders') : this.router.navigateByUrl('/login');
+          }
+          else{ this.router.navigateByUrl('/home'); }
         }
         else if(data.password !== this.password){
           this.resetFields();

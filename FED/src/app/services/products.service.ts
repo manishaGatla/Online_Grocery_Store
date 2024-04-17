@@ -11,11 +11,11 @@ export class ProductsService {
 
 
   addProduct(reqBody: any ){
-   return this.httpClient.post(this.baseurl + '/api/UserDetails/', reqBody);
+   return this.httpClient.post(this.baseurl + '/api/Orders/addProduct', reqBody);
   }
 
   editProduct(reqBody: any): Observable<any>{
-    return this.httpClient.post(this.baseurl + '', reqBody);
+    return this.httpClient.post(this.baseurl + '/api/Update/updateProducts', reqBody);
   }
 
   getProducts(): Observable<any>{
@@ -33,4 +33,8 @@ export class ProductsService {
   addToCart(product: any): Observable<any>{
     return this.httpClient.post(this.baseurl + '/api/Orders/addToCart', product);
   }
+
+  addCategory(reqBody: any ){
+    return this.httpClient.post(this.baseurl + '/api/Orders/addCategory', reqBody);
+   }
 }
