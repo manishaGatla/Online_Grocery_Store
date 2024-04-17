@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class RegisterServiceService {
-  baseurl = "https://localhost:7274"
+  baseurl = "https://localhost:7010"
   constructor(private http: HttpClient) {}
 
   public addCustomer(data: any): Observable<any>{

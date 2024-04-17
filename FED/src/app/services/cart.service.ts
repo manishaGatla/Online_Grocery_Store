@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  baseurl = "https://localhost:7274";
+  baseurl = "https://localhost:7010";
   showPaymentSection: boolean = false;
   addressDetails: any = {
     addressLine1: null,

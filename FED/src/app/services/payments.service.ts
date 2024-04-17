@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PaymentsService {
-  baseurl = "https://localhost:7274";
+  baseurl = "https://localhost:7010";
   constructor(private httpClient : HttpClient) { }
 
   public placeOrder(reqBody: any): Observable<any>{
